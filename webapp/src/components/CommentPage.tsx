@@ -248,12 +248,6 @@ export const CommentPage = () => {
           >
             Community
           </button>
-          <button 
-            onClick={() => navigate('/gallery')}
-            className="dashboard-button"
-          >
-            Gallery
-          </button>
         </div>
         <div className='fullcontainer'>
 

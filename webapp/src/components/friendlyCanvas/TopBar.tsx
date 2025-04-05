@@ -60,12 +60,6 @@ function TopBar() {
         >
           Dashboard
         </button>
-        <button 
-          className="dashboard-button"
-          onClick={() => navigate('/gallery')}
-        >
-          Gallery
-        </button>
       </div>
     </div>
   );
