@@ -187,7 +187,7 @@ export const Dashboard = () => {
           maxWidth: '800px'
         }}>
           <button 
-            onClick={() => navigate('/new-project')}
+            onClick={() => navigate('/friendly-canvas')}
             className="dashboard-button"
           >
             New Project

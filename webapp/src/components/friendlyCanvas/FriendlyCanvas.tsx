@@ -4,7 +4,7 @@ import TopBar from "./TopBar.tsx";
 import Encouragement from './Encouragement';
 
 
-function App() {
+export const FriendlyCanvas = ()=>  {
 
   return (
     <div className = "App">
@@ -26,4 +26,3 @@ function App() {
   )
 }
 
-export default App

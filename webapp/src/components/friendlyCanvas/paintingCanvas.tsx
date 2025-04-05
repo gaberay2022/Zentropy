@@ -81,7 +81,8 @@ function Drawing(props: DrawingProps) {
                     ctx.beginPath();
 
 
-                    if(lastPos.current.x && lastPos.current.y){
+                    // @ts-expect-error
+                    if(lastPos.current.x != null && lastPos.current.y != null){
                         ctx.lineWidth = props.penSize;
                         ctx.moveTo(lastPos.current.x, lastPos.current.y);
                         ctx.fill();
@@ -286,8 +287,11 @@ style="width: ${props.penSize}px; height: ${props.penSize}px"
         if(mouseMoveModes.includes(props.strokeMode)){
             drawOnDrag(e)
         }
-
     }
+
+    useEffect(() => {
+        console.log("Made it here!!")
+    }, [props.clearCanvas])
     //TODO implement full touch support
     return (
         <>

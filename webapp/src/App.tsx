@@ -161,7 +161,7 @@ const AppContent = () => {
               } 
             />
             <Route path="*" element={<Navigate to="/" replace />} />
-            <Route path="/canvas" element={<FriendlyCanvas/>} />
+            <Route path="/friendly-canvas" element={<FriendlyCanvas/>} />
           </Routes>
         </div>
       </div>
