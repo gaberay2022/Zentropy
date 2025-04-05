@@ -1,19 +1,24 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { signOut, getCurrentUser } from 'aws-amplify/auth';
 import { useEffect, useState } from 'react';
-
-interface Project {
-  image_id: string;
-  image_data: string;
-  title: string;
-  created_at: string;
-}
+import { useGlobalState } from '../GlobalStateContext';
 
 export const CommentPage = () => {
   const navigate = useNavigate();
-  const [recentProjects, setRecentProjects] = useState<Project[]>([]);
+  const { id } = useParams();
+  const { currentDrawings } = useGlobalState();
   const [userId, setUserId] = useState<string | null>(null);
   const [comments, setComments] = useState<string[]>([]);
+  const [currentDrawing, setCurrentDrawing] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (currentDrawings.length > 0 && id) {
+      const index = parseInt(id) - 1;
+      if (index >= 0 && index < currentDrawings.length) {
+        setCurrentDrawing(currentDrawings[index].data);
+      }
+    }
+  }, [currentDrawings, id]);
 
   const handleSignOut = async () => {
     try {
@@ -256,11 +261,15 @@ export const CommentPage = () => {
         {/* Drawing Section */}
             <div className='comment--card'>
                 <div className="comment--img">
-                    <img src="/svgs/Bald sun guy 1.svg" alt="Sample Drawing"/>
+                    {currentDrawing ? (
+                        <img src={currentDrawing} alt="User Drawing" style={{ maxWidth: '100%', height: 'auto' }}/>
+                    ) : (
+                        <div>Loading drawing...</div>
+                    )}
                 </div>
                 
                 <div className="container--card--content">
-                    <p className='comment--number'>234</p>
+                    <p className='comment--number'>{comments.length}</p>
                     <img src="/svgs/Logo P.svg" width="30px" className='flipped'></img>
                 </div>
             </div>
