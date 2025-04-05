@@ -3,6 +3,7 @@ import { SignIn } from './components/auth/SignIn';
 import { SignUp } from './components/auth/SignUp';
 import { VerifyEmail } from './components/auth/VerifyEmail';
 import { Dashboard } from './components/Dashboard';
+import { CreatePaintingFriendly} from './components/CreatePaintingFriendly';
 import './App.css';
 import './aws-config';
 
@@ -18,6 +19,7 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/verify-email" element={<VerifyEmail />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/friendly-create-painting" element={<CreatePaintingFriendly/>}/>
               <Route path="*" element={<Navigate to="/signin" replace />} />
             </Routes>
           </div>

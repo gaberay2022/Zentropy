@@ -1,0 +1,91 @@
+.Slider {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 200px;
+
+}
+.ColorPicker {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 0;
+    border-radius: 5px;
+}
+.ModeButton {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    width: 100%;
+    height: 40px;
+    background-color: lightgray;
+
+}
+.CanvasColumnWrapper {
+    height: min(100%, calc(800px + 50px));
+    width: auto;
+    display: flex;
+    flex-direction: column;
+
+}
+.CanvasRowWrapper {
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+
+}
+.TopBar {
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    width: 840px;
+    border-right: #1a1a1a 2px solid;
+    background-color: gray;
+}
+.SideBar {
+    display: flex;
+    flex-direction: column;
+    height: min(100%, 800px);
+    width: 40px;
+    border-right: #1a1a1a 2px solid;
+    background-color: gray;
+    align-items: center;
+    justify-content: center;
+}
+
+.drawingCanvas{
+    width: 800px;
+    height: 800px;
+}
+.CanvasWrapper {
+    overflow: scroll;
+    width: min(800px, 50%);
+    height: min(800px, 90vh);
+}
+.StampSelector{
+    flex-wrap: wrap;
+    width: 500px;
+    height: 100px;
+    padding: 10px;
+    border-radius: 10px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: lightgray;
+
+    position: absolute;
+    background-color: white;
+    left: 60px;
+
+}
+
+.Stamp{
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+    &:hover{
+        background-color: lightgray;
+    }
+}
