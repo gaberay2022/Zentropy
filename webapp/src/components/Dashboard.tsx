@@ -14,9 +14,10 @@ export const Dashboard = () => {
   };
 
   return (
+    
     <div className="dashboard">
-      <h1>Welcome to Dashboard</h1>
-      <button onClick={handleSignOut}>Sign Out</button>
+      <h1>Welcome to the Dashboard</h1>
+      
     </div>
   );
 };

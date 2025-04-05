@@ -43,10 +43,10 @@ export const SignUp = () => {
   };
 
   return (
-    <div className="auth-container">
+    <div className="auth-container2">
       <h2>Sign Up</h2>
       {error && <div className="error-message">{error}</div>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='form2'>
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input
