@@ -1,19 +1,19 @@
 import { useState } from 'react';
 
 interface SignInProps {
-  onSubmit: (username: string, password: string) => Promise<string | void>;
+  onSubmit: (identifier: string, password: string) => Promise<string | void>;
   onSwitchToSignUp: () => void;
 }
 
 export const SignIn = ({ onSubmit, onSwitchToSignUp }: SignInProps) => {
-  const [username, setUsername] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    const result = await onSubmit(username, password);
+    const result = await onSubmit(identifier, password);
     if (result) {
       setError(result);
     }
@@ -25,14 +25,15 @@ export const SignIn = ({ onSubmit, onSwitchToSignUp }: SignInProps) => {
       {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="identifier">Email or Username</label>
           <input
             type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="identifier"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
             required
-            autoComplete="username"
+            autoComplete="username email"
+            placeholder="Enter your email or username"
           />
         </div>
         <div className="form-group">
@@ -44,6 +45,7 @@ export const SignIn = ({ onSubmit, onSwitchToSignUp }: SignInProps) => {
             onChange={(e) => setPassword(e.target.value)}
             required
             autoComplete="current-password"
+            placeholder="Enter your password"
           />
         </div>
         <button type="submit" className="button">Sign In</button>

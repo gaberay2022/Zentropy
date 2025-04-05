@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 interface SignUpProps {
-  onSubmit: (data: {
+  onSubmit: (formData: {
     username: string;
     password: string;
     email: string;
@@ -17,7 +17,7 @@ export const SignUp = ({ onSubmit, onSwitchToSignIn }: SignUpProps) => {
     password: '',
     email: '',
     firstName: '',
-    birthdate: ''
+    birthdate: '',
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -31,9 +31,10 @@ export const SignUp = ({ onSubmit, onSwitchToSignIn }: SignUpProps) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
   };
 
@@ -42,31 +43,31 @@ export const SignUp = ({ onSubmit, onSwitchToSignIn }: SignUpProps) => {
       <h2>Sign Up</h2>
       {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
-        <div className="signup-form-grid">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              autoComplete="username"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-              autoComplete="given-name"
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+            autoComplete="username"
+            placeholder="Choose a username"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+            autoComplete="given-name"
+            placeholder="Enter your first name"
+          />
         </div>
         <div className="form-group">
           <label htmlFor="email">Email</label>
@@ -78,18 +79,20 @@ export const SignUp = ({ onSubmit, onSwitchToSignIn }: SignUpProps) => {
             onChange={handleChange}
             required
             autoComplete="email"
+            placeholder="Enter your email address"
           />
         </div>
         <div className="form-group">
           <label htmlFor="birthdate">Birthdate</label>
           <input
-            type="date"
+            type="text"
             id="birthdate"
             name="birthdate"
             value={formData.birthdate}
             onChange={handleChange}
             required
             autoComplete="bday"
+            placeholder="MM/DD/YYYY"
           />
         </div>
         <div className="form-group">
@@ -102,6 +105,7 @@ export const SignUp = ({ onSubmit, onSwitchToSignIn }: SignUpProps) => {
             onChange={handleChange}
             required
             autoComplete="new-password"
+            placeholder="Create a password"
           />
         </div>
         <button type="submit" className="button">Sign Up</button>

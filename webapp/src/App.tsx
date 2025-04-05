@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from 'react';
 import { Dashboard } from './components/Dashboard';
 import { Home } from './components/Home';
 import { AuthPage } from './components/auth/AuthPage';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { FriendlyCanvas } from './components/friendlyCanvas/FriendlyCanvas'
 import {Community} from './components/Community'
 import './App.css';
 import './aws-config';
@@ -161,9 +163,17 @@ const AppContent = () => {
             <Route path="/signin" element={<AuthPage />} />
             <Route path="/signup" element={<AuthPage />} />
             <Route path="/verify-email" element={<AuthPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route 
+              path="/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } 
+            />
             <Route path="/community" element={<Community />} />
             <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="/friendly-canvas" element={<FriendlyCanvas/>} />
           </Routes>
         </div>
       </div>

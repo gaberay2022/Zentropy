@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { signIn, signUp } from 'aws-amplify/auth';
+import { signIn, signUp, signOut, getCurrentUser } from 'aws-amplify/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
@@ -11,6 +11,21 @@ export const AuthPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Check for and sign out any existing user
+    const checkAndSignOut = async () => {
+      try {
+        await getCurrentUser();
+        // If we get here, there is a user signed in
+        await signOut();
+      } catch (error) {
+        // No user is signed in, which is what we want
+        console.log('No user currently signed in');
+      }
+    };
+    checkAndSignOut();
+  }, []);
 
   // Set initial form and slide direction based on route
   const getInitialForm = (): FormType => {
@@ -58,9 +73,9 @@ export const AuthPage = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSignIn = async (username: string, password: string) => {
+  const handleSignIn = async (identifier: string, password: string) => {
     try {
-      await signIn({ username, password });
+      await signIn({ username: identifier, password });
       navigate('/dashboard');
     } catch (err) {
       return err instanceof Error ? err.message : 'An error occurred during sign in';
