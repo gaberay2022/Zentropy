@@ -25,15 +25,15 @@ export const SignIn = ({ onSubmit, onSwitchToSignUp }: SignInProps) => {
       {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="identifier">Email or Username</label>
+          <label htmlFor="identifier">Email</label>
           <input
-            type="text"
+            type="email"
             id="identifier"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             required
-            autoComplete="username email"
-            placeholder="Enter your email or username"
+            autoComplete="email"
+            placeholder="Enter your email address"
           />
         </div>
         <div className="form-group">

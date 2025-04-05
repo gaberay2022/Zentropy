@@ -1,12 +1,22 @@
-import { useState } from 'react';
-import { confirmSignUp, getCurrentUser } from 'aws-amplify/auth';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { confirmSignUp } from 'aws-amplify/auth';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const VerifyEmail = () => {
   const [code, setCode] = useState('');
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const emailParam = params.get('email');
+    const usernameParam = params.get('username');
+    if (emailParam) setEmail(emailParam);
+    if (usernameParam) setUsername(usernameParam);
+  }, [location]);
 
   const createUserInDb = async (email: string) => {
     try {
@@ -35,14 +45,13 @@ export const VerifyEmail = () => {
         confirmationCode: code
       });
 
-      // After successful verification, get the user's email and create DB entry
-      try {
-        const { signInDetails } = await getCurrentUser();
-        if (signInDetails?.loginId) {
-          await createUserInDb(signInDetails.loginId);
+      // Create DB entry with email from URL params
+      if (email) {
+        try {
+          await createUserInDb(email);
+        } catch (err) {
+          console.error('Error creating user in database:', err);
         }
-      } catch (err) {
-        console.error('Error getting user details:', err);
       }
 
       navigate('/signin');

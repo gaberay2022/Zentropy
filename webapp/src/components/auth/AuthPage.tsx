@@ -73,12 +73,18 @@ export const AuthPage = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSignIn = async (identifier: string, password: string) => {
+  const handleSignIn = async (email: string, password: string) => {
     try {
-      await signIn({ username: identifier, password });
+      await signIn({ username: email, password });
       navigate('/dashboard');
     } catch (err) {
-      return err instanceof Error ? err.message : 'An error occurred during sign in';
+      if (err instanceof Error) {
+        if (err.message.includes('User does not exist')) {
+          return 'No account found with this email address';
+        }
+        return err.message;
+      }
+      return 'An error occurred during sign in';
     }
   };
 
@@ -103,7 +109,7 @@ export const AuthPage = () => {
           autoSignIn: true
         }
       });
-      navigate('/verify-email');
+      navigate(`/verify-email?email=${encodeURIComponent(formData.email)}&username=${encodeURIComponent(formData.username)}`);
     } catch (err) {
       return err instanceof Error ? err.message : 'An error occurred during sign up';
     }
