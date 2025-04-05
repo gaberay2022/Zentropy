@@ -24,15 +24,22 @@
 
 }
 .CanvasColumnWrapper {
-    height: min(100%, calc(800px + 50px));
-    width: auto;
+    margin-top: 5rem;
+    margin-left: 5rem;
+    margin-bottom: auto;
+    height: min(80%, calc(800px + 40px));
+    width: min(70%, calc(1600px + 40px));
     display: flex;
     flex-direction: column;
-
+    padding-bottom: 20px;
+    padding-right: 20px;
+    background-color: #87C8CB;
+    border-radius: 10px;
+    overflow: hidden;
 }
 .CanvasRowWrapper {
-    height: auto;
-    width: auto;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: row;
 
@@ -41,17 +48,15 @@
     display: flex;
     flex-direction: row;
     height: 40px;
-    width: 840px;
-    border-right: #1a1a1a 2px solid;
-    background-color: gray;
+    width: 100%;
+    background-color: #87C8CB;
 }
 .SideBar {
     display: flex;
     flex-direction: column;
     height: min(100%, 800px);
     width: 40px;
-    border-right: #1a1a1a 2px solid;
-    background-color: gray;
+    background-color: #87C8CB;
     align-items: center;
     justify-content: center;
 }
@@ -62,8 +67,9 @@
 }
 .CanvasWrapper {
     overflow: scroll;
-    width: min(800px, 50%);
-    height: min(800px, 90vh);
+    width: min(1600px, 100%);
+    height: min(800px, 100%);
+    background-color: white;
 }
 .StampSelector{
     flex-wrap: wrap;

@@ -500,7 +500,7 @@ function Canvas() {
                             Stmp
                         </Button>
                     </div>
-                    <Drawing width={800} height={800} penSize={penSize} strokeMode={selectedStrokeOption}
+                    <Drawing width={1600} height={700} penSize={penSize} strokeMode={selectedStrokeOption}
                              color={currColor}/>
 
                 </div>
