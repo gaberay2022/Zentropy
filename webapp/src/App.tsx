@@ -4,6 +4,7 @@ import { Dashboard } from './components/Dashboard';
 import { Home } from './components/Home';
 import { AuthPage } from './components/auth/AuthPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { FriendlyCanvas } from './components/friendlyCanvas/FriendlyCanvas'
 import './App.css';
 import './aws-config';
 
@@ -160,6 +161,7 @@ const AppContent = () => {
               } 
             />
             <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="/canvas" element={<FriendlyCanvas/>} />
           </Routes>
         </div>
       </div>

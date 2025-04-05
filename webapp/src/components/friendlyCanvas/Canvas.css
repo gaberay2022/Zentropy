@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Delius+Unicase:wght@400;700&family=Henny+Penny&display=swap');
+
+.Slider {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 200px;
+
+}
+.ColorPicker {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 0;
+    border-radius: 5px;
+}
+.ModeButton {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    width: 100%;
+    height: 40px;
+    background-color: lightgray;
+}
+.TopBarButton {
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    cursor: pointer;
+}
+.CanvasColumnWrapper {
+    margin-left: 5rem;
+    margin-bottom: auto;
+    height: min(80%, calc(700px + 40px));
+    width: min(70%, calc(1600px + 40px));
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    background-color: #87C8CB;
+    border-radius: 10px;
+    overflow: hidden;
+
+}
+.CanvasRowWrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+}
+.TopBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    height: 40px;
+    width: 100%;
+    background-color: #87C8CB;
+    flex-shrink: 0;
+}
+.SideBar {
+    display: flex;
+    flex-direction: column;
+    height: min(100%, 800px);
+    width: 40px;
+    background-color: #87C8CB;
+    align-items: center;
+    justify-content: center;
+}
+
+.drawingCanvas{
+    width: 800px;
+    height: 800px;
+}
+.CanvasWrapper {
+    overflow: scroll;
+    scrollbar-width: thin;
+    width: min(1600px, 100%);
+    height: min(705px, 100%);
+    background-color: white;
+}
+.StampSelector{
+    flex-wrap: wrap;
+    width: 500px;
+    height: 100px;
+    padding: 10px;
+    border-radius: 10px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: lightgray;
+
+    position: absolute;
+    background-color: white;
+    left: 60px;
+
+}
+.SizeText {
+    font-family: "Delius Unicase", cursive;
+    font-weight: 400;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 1rem;
+}
+.Stamp{
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+
+    &:hover{
+        background-color: lightgray;
+    }
+}
+
+input[type="range"] {
+    background: transparent;
+    cursor: pointer;
+    width: 13rem;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, rgba(249,227,173,1) 0%, rgba(242,101,34,1) 100%);
+    height: 0.5rem;
+}
+input[type="range"]::-moz-range-track {
+    background: linear-gradient(90deg, rgba(249,227,173,1) 0%, rgba(242,101,34,1) 100%);
+    height: 0.5rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border-radius: .5rem;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 60px;
+    height: 60px;
+    border: 0;
+    background: url("data:image/svg+xml,<svg width='60' height='60' viewBox='0 0 63 63' fill='none' xmlns='http://www.w3.org/2000/svg'><rect x='5.05025' y='31.2134' width='37' height='37' rx='18.5' transform='rotate(-45 5.05025 31.2134)' fill='%23FF9675' stroke='white' stroke-width='7'/><path d='M31.3357 40.8633L31.3357 22.0019' stroke='%231D1D1D' stroke-width='2' stroke-miterlimit='10'/><path d='M38.67 26.334C32.3829 26.334 31.335 18.999 31.335 18.999C31.335 18.999 30.2871 26.334 24 26.334' stroke='%231D1D1D' stroke-width='2' stroke-miterlimit='10' stroke-linejoin='bevel'/><path d='M38.67 35.5283C32.3829 35.5283 31.335 42.8633 31.335 42.8633C31.335 42.8633 30.2871 35.5283 24 35.5283' stroke='%231D1D1D' stroke-width='2' stroke-miterlimit='10' stroke-linejoin='bevel'/></svg>");
+    cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width:  35px;
+    height: 35px;
+    border: 0;
+    background: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 196.22 196.22"><defs><style> .cls-1 { fill: %23f26522; } .cls-2 { fill: %23940f12; } .cls-3 { fill: %23f9e3ad; stroke: %23940f12; stroke-miterlimit: 10; stroke-width: 12px; } </style></defs><g id="Animal_Posters" data-name="Animal Posters"><g id="Layer_1-2" data-name="Layer 1"><g><circle class="cls-3" cx="98.11" cy="98.11" r="92.11"/><g><path class="cls-2" d="M18.13,69.91c-2.38-.05-4.1,2.21-3.49,4.5,4.11,15.42,18.02,26.91,34.77,27.23s31.1-10.62,35.8-25.87c.7-2.27-.93-4.59-3.31-4.63l-63.78-1.23Z"/><path class="cls-2" d="M50.12,105.65c-.26,0-.52,0-.78,0-18.06-.35-33.91-12.77-38.56-30.2-.62-2.33-.13-4.75,1.36-6.65,1.47-1.88,3.64-2.93,6.07-2.88l63.78,1.23c2.39.05,4.56,1.18,5.96,3.11,1.41,1.95,1.81,4.39,1.1,6.7-5.24,16.99-21.18,28.69-38.92,28.69ZM18.65,73.92c3.92,13.72,16.51,23.45,30.84,23.72,14.34.29,27.29-8.96,31.73-22.51l-62.57-1.21Z"/></g><g><path class="cls-2" d="M113.31,71.67c-2.27-.04-3.96,2.02-3.54,4.25,3.17,16.71,17.68,29.49,35.36,29.83,17.68.34,32.67-11.87,36.48-28.45.51-2.21-1.11-4.34-3.37-4.38l-64.93-1.25Z"/><path class="cls-2" d="M145.83,109.76c-.26,0-.52,0-.78,0-19.16-.37-35.65-14.29-39.21-33.09-.43-2.26.17-4.57,1.65-6.33,1.47-1.74,3.59-2.71,5.89-2.67h0l64.93,1.25c2.28.04,4.38,1.1,5.78,2.89,1.41,1.81,1.93,4.14,1.41,6.39-4.23,18.4-20.84,31.56-39.68,31.56ZM113.8,75.67c3.06,14.85,16.19,25.78,31.41,26.08.21,0,.42,0,.63,0,14.96,0,28.18-10.33,31.76-24.85l-63.79-1.23ZM113.23,75.66h0,0Z"/></g><path class="cls-2" d="M84.72,84.02c3.34-2.19,7.22-2.88,11.13-3.36,5.01-.61,8.6,1.04,12.88,3.45,5.62,3.16,10.66-5.48,5.05-8.63s-11.13-5.56-17.74-4.85c-5.68.61-11.51,1.58-16.36,4.76-5.36,3.52-.35,12.18,5.05,8.63h0Z"/><path class="cls-1" d="M138.9,69.02c-7.94,7.9-15.88,15.79-23.82,23.69-2.28,2.27,1.25,5.81,3.54,3.54,7.94-7.9,15.88-15.79,23.82-23.69,2.28-2.27-1.25-5.81-3.54-3.54h0Z"/><path class="cls-1" d="M154.98,69.46c-10.19,10.19-20.37,20.37-30.56,30.56-2.28,2.28,1.26,5.81,3.54,3.54,10.19-10.19,20.37-20.37,30.56-30.56,2.28-2.28-1.26-5.81-3.54-3.54h0Z"/><path class="cls-1" d="M42.67,67.19c-7.45,7.46-14.89,14.91-22.34,22.37-2.28,2.28,1.26,5.82,3.54,3.54,7.45-7.46,14.89-14.91,22.34-22.37,2.28-2.28-1.26-5.82-3.54-3.54h0Z"/><path class="cls-1" d="M57.98,67.69c-9.44,9.64-18.88,19.29-28.31,28.93-2.12,2.16,1.16,5.53,3.28,3.36,9.44-9.64,18.88-19.29,28.31-28.93,2.12-2.16-1.16-5.53-3.28-3.36h0Z"/><path class="cls-2" d="M63.33,138.31c11.91,11.45,27.71,18.02,44.32,15.32,12.35-2.01,24.19-9.57,28.32-21.8.92-2.74-1.09-5.23-3.49-6.15s-4.37-1.53-7.07-1.17c-6.16.82-6.65,10.09,0,10,4.41-.06,6.94.99,10.69,3.18,5.56,3.26,10.6-5.38,5.05-8.63-5.21-3.06-9.6-4.63-15.73-4.55v10c1.9-.25,2.62.13,4.41.82l-3.49-6.15c-2.96,8.77-12.64,13.57-21.26,14.8-13.06,1.86-25.4-3.82-34.67-12.73-4.64-4.46-11.72,2.6-7.07,7.07h0Z"/></g></g></g></svg>');
+    cursor: pointer;
+}
+
+input[type="color"] {
+    width: 2rem;
+    height: 2rem;
+}
