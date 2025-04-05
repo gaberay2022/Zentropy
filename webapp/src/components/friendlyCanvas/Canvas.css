@@ -133,17 +133,18 @@ svg[height][width][style*="position: fixed"] {
 /* Stamp selector styles */
 .StampSelector {
     display: none;
-    gap: 8px;
+    gap: 12px;
     width: auto;
-    min-width: 150px;
+    min-width: 200px;
     height: auto;
-    padding: 8px;
-    border-radius: 8px;
-    border: 2px solid lightgray;
+    padding: 12px;
+    border-radius: 10px;
+    border: 3px solid #87C8CB;
     position: absolute;
-    background-color: white;
+    background-color: #FFF5DA;
     left: 60px;
-    z-index: 1000;
+    z-index: 10000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .StampSelector.visible {
@@ -154,27 +155,34 @@ svg[height][width][style*="position: fixed"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 8px;
     cursor: pointer;
-    z-index: 1001;
-    padding: 4px;
-    border: 1px solid transparent;
+    z-index: 10001;
+    padding: 6px;
+    border: 2px solid transparent;
     transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .StampSelector > div:hover {
     border-color: #87C8CB;
-    background: rgba(135, 200, 203, 0.1);
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .StampSelector svg {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     pointer-events: auto;
-    z-index: 1001;
+    z-index: 10002;
+}
+
+.StampSelector svg * {
+    pointer-events: none;
 }
 
 .SizeText {

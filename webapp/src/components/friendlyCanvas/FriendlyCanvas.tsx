@@ -3,8 +3,16 @@ import Canvas from "./paintingCanvas.tsx"
 import TopBar from "./TopBar.tsx";
 import Encouragement from './Encouragement';
 import '../../styles/animations.css';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Navigate } from 'react-router-dom';
 
 export const FriendlyCanvas = () => {
+  const { user, authStatus } = useAuthenticator((context) => [context.user, context.authStatus]);
+
+  if (authStatus !== 'authenticated') {
+    return <Navigate to="/signin" replace />;
+  }
+
   return (
     <div className="App">
       {/* Background Clouds */}
