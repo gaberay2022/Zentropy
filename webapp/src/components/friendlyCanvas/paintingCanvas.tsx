@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import './Canvas.css';
 import { Button } from "@aws-amplify/ui-react";
 
-import FloodFill from 'q-floodfill';
 import axios from 'axios';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import ReactDOM from 'react-dom';
@@ -16,8 +15,6 @@ import FloodFill from 'q-floodfill'
 import {Canvg, Translate} from 'canvg'
 import CssFilterConverter from 'css-filter-converter';
 
-import clear_button from "/svgs/clear_button.svg";
-import save_button from "/svgs/save_button.svg";
 
 import Brush_Icon from "/svgs/Brush_Icon.svg"
 import Bucket_Icon from "/svgs/Bucket_Icon.svg"
@@ -72,6 +69,8 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
     const [mouseOverCanvas, setMouseOverCanvas] = useState<boolean>(false);
     const isMouseDown = useRef<boolean>(false);
     const lastPos = useRef<LastPos>({ x: null, y: null });
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
 
     const cursorStyle = useMemo(() => {
         switch (props.strokeMode) {
@@ -88,9 +87,9 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
 
     async function drawOnTap(e: React.TouchEvent<HTMLCanvasElement>) {
         const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (canvas.current) {
-            const boundingBox = canvas.current.getBoundingClientRect();
-            const ctx = canvas.current.getContext('2d');
+        if (canvasRef.current) {
+            const boundingBox = canvasRef.current.getBoundingClientRect();
+            const ctx = canvasRef.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = Math.floor(e.touches[0].clientX - boundingBox.left);
@@ -112,9 +111,9 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
 
     async function drawOnDrag(e: React.TouchEvent<HTMLCanvasElement>) {
         const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (canvas.current && isMouseDown.current) {
-            const boundingBox = canvas.current.getBoundingClientRect();
-            const ctx = canvas.current.getContext('2d');
+        if (canvasRef.current && isMouseDown.current) {
+            const boundingBox = canvasRef.current.getBoundingClientRect();
+            const ctx = canvasRef.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = e.touches[0].clientX - boundingBox.left;
@@ -164,9 +163,9 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
 
     async function drawOnClick(e: React.MouseEvent<HTMLCanvasElement>) {
         const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (canvas.current) {
-            const boundingBox = canvas.current.getBoundingClientRect();
-            const ctx = canvas.current.getContext('2d');
+        if (canvasRef.current) {
+            const boundingBox = canvasRef.current.getBoundingClientRect();
+            const ctx = canvasRef.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = Math.floor(e.clientX - boundingBox.left);
@@ -281,10 +280,9 @@ y="${rel_Y-props.penSize/2+32}">
     }
 
     function draw(e: React.MouseEvent<HTMLCanvasElement>) {
-        const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (canvas.current && isMouseDown.current) {
-            const boundingBox = canvas.current.getBoundingClientRect();
-            const ctx = canvas.current.getContext('2d');
+        if (canvasRef.current && isMouseDown.current) {
+            const boundingBox = canvasRef.current.getBoundingClientRect();
+            const ctx = canvasRef.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = e.clientX - boundingBox.left;
@@ -356,9 +354,9 @@ y="${rel_Y-props.penSize/2+32}">
     }
 
     useEffect(() => {
-        const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (props.clearCanvas && canvas.current) {
-            const ctx = canvas.current.getContext('2d');
+
+        if (props.clearCanvas && canvasRef.current) {
+            const ctx = canvasRef.current.getContext('2d');
             if (ctx) {
                 ctx.clearRect(0, 0, props.width, props.height);
             }
@@ -378,7 +376,7 @@ y="${rel_Y-props.penSize/2+32}">
                         cursor: cursorStyle
                     }}
                     className="drawingCanvas"
-                    ref={ref}
+                    ref={canvasRef}
                     onMouseDown={() => isMouseDown.current = true}
                     onMouseUp={endStrokeHandler}
                     onMouseMove={handleMouseMove}
