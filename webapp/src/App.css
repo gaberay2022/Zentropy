@@ -175,3 +175,96 @@
   font-weight: 700;
   color: #940F12;
 }
+
+/* Comments Page */
+
+.fullcontainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  justify-content: space-between;
+  gap: 100px;
+  background-color: var(--bg-shade);
+}
+
+.comment--card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;      /* Align content to the left inside the card */
+  justify-content: flex-start;  /* Prevent centering */
+  gap: 20px;                    /* Space between elements inside the card */
+  background: rgba(255, 245, 218, 0.95);
+  box-shadow: 0 0 32px 0 rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  border-radius: 12px;
+  width: 500px;                 /* Fixed width for the card */
+  height: 500px;                /* Fixed height for the card */
+  padding: 20px;
+  margin-left: 0;               /* Ensure no extra margin pushing it to the right */
+}
+
+
+.comment--img {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Ensure it takes full width */
+  height: 80%; /* Adjust the height */
+  overflow: hidden; /* Hide any overflow from the image */
+}
+
+.comment--img > img {
+  width: 100%; /* Make the image take up the full width of the container */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 8px;
+}
+
+.comments--list ul {
+  list-style-type: none; /* Remove default bullets */
+  padding-left: 0; /* Remove default padding */
+}
+
+.comments--list li {
+  position: relative;
+  padding-left: 40px; /* Create space for the custom bullet */
+  font-size: 24px; /* Increase the font size for the text */
+  color: #ffffff;
+}
+
+.comments--list li::before {
+  content: ''; /* Add a custom image */
+  position: absolute;
+  left: 0; /* Position it on the left side */
+  top: 50%; /* Vertically center the bullet */
+  transform: translateY(-50%); /* Fine-tune vertical positioning */
+  width: 30px; /* Set the width of the image */
+  height: 30px; /* Set the height of the image */
+  background-image: url('/svgs/Bald sun guy 1.svg'); /* Path to your image */
+  background-size: contain; /* Ensure the image fits the specified width/height */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+
+.writeComment {
+  display: flex;           /* Enable Flexbox */
+  flex-direction: column;  /* Align items vertically */
+  gap: 10px;               /* Add some space between the label and input */
+  align-items: flex-start; /* Align items to the left */
+}
+
+.writeComment label {
+  font-size: 16px; /* Optional: Adjust font size of the label */
+}
+
+.writeComment input {
+  width: 100%;      /* Optional: Make the input field take up the full width of the container */
+  padding: 8px;     /* Add some padding inside the input field */
+  border: 1px solid #ccc; /* Optional: Style the input */
+  border-radius: 4px; /* Optional: Round the corners of the input */
+}
+
+.comments-container {
+  width: 100%;
+  max-height: 400px; /* Set the max height for the comments section */
+  overflow-y: auto; /* This makes the comments scrollable if they exceed the max height */
+  padding: 10px;
+}

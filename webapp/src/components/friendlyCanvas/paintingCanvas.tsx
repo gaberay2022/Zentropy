@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import './Canvas.css';
 import { Button } from "@aws-amplify/ui-react";
+
 import FloodFill from 'q-floodfill';
 import axios from 'axios';
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -104,6 +105,7 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
                     floodFill.fill(props.color, rel_X, rel_Y, 64);
                     ctx.putImageData(floodFill.imageData, 0, 0);
                     break;
+
             }
         }
     }
@@ -551,6 +553,7 @@ function Canvas(): JSX.Element {
     }, []);
 
     return (
+
         <>
         <div className="CanvasColumnWrapper">
             <div className="TopBar">
