@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { signOut, getCurrentUser } from 'aws-amplify/auth';
 import { useEffect, useState } from 'react';
+import { useGlobalState } from '../GlobalStateContext';
+
 
 interface Project {
   image_id: string;
@@ -10,6 +12,8 @@ interface Project {
 }
 
 export const Dashboard = () => {
+  const { currentDrawings } = useGlobalState();
+
   const navigate = useNavigate();
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
@@ -223,17 +227,16 @@ export const Dashboard = () => {
             justifyContent: 'center',
             flexWrap: 'wrap'
           }}>
-            {recentProjects.map((project) => (
-              <div key={project.image_id} className="project-card">
+            {currentDrawings.map((project, i) => (
+              <div key={i} className="project-card">
                 <img 
-                  src={`data:image/png;base64,${project.image_data}`}
-                  alt={project.title}
+                  src={project.data}
+                  alt={"example"}
                   className="project-image"
                 />
                 <div className="project-details">
-                  <h3 className="project-title">{project.title}</h3>
-                  <button 
-                    onClick={() => navigate(`/comments/${project.image_id}`)}
+                  <button
+                    onClick={() => navigate(`/comments/${i}`)}
                     className="project-comments"
                   >
                     Comments
@@ -241,7 +244,7 @@ export const Dashboard = () => {
                 </div>
               </div>
             ))}
-            {recentProjects.length === 0 && (
+            {currentDrawings.length === 0 && (
               <div className="dashboard-projects-empty">
                 No projects yet. Create your first project!
               </div>
