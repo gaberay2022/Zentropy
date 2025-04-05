@@ -47,8 +47,8 @@ const AppContent = () => {
   const cloudCount = useRef(0);
   const lastCloudPosition = useRef<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const isCommunityPage = location.pathname === '/community'; // Check if the current route is /community
-  const isCommentsPage = location.pathname === '/comments';
+  const isCommunityPage = location.pathname === '/community';
+  const isCommentsPage = location.pathname.startsWith('/comments/');
 
 
   const addCloud = () => {

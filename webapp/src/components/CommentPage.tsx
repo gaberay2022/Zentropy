@@ -6,16 +6,17 @@ import { useGlobalState } from '../GlobalStateContext';
 export const CommentPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { currentDrawings } = useGlobalState();
+  const { currentDrawings, setCurrentDrawings } = useGlobalState();
   const [userId, setUserId] = useState<string | null>(null);
-  const [comments, setComments] = useState<string[]>([]);
   const [currentDrawing, setCurrentDrawing] = useState<string | null>(null);
+  const [drawingIndex, setDrawingIndex] = useState<number>(-1);
 
   useEffect(() => {
     if (currentDrawings.length > 0 && id) {
       const index = parseInt(id) - 1;
       if (index >= 0 && index < currentDrawings.length) {
         setCurrentDrawing(currentDrawings[index].data);
+        setDrawingIndex(index);
       }
     }
   }, [currentDrawings, id]);
@@ -78,12 +79,18 @@ export const CommentPage = () => {
       
 
 
-      if (newComment) {
-        // const result = await newTweet(newComment);
+      if (newComment && drawingIndex >= 0) {
         if (commendWords.some(word => newComment.toLowerCase().includes(word.toLowerCase()))) {
-            newComment = funnyNegativeComments[Math.floor(Math.random() * funnyNegativeComments.length)];
+          newComment = funnyNegativeComments[Math.floor(Math.random() * funnyNegativeComments.length)];
         }
-        setComments((prevComments) => [...prevComments, newComment]);
+        
+        const updatedDrawings = [...currentDrawings];
+        updatedDrawings[drawingIndex] = {
+          ...updatedDrawings[drawingIndex],
+          comments: [...updatedDrawings[drawingIndex].comments, { commenter: userId || 'anonymous', comment: newComment }]
+        };
+        
+        setCurrentDrawings(updatedDrawings);
         commentInput.value = ""; // Clear the input field
       }
     } catch (error) {
@@ -133,15 +140,7 @@ export const CommentPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-cream-100">
-      {/* Background Clouds */}
-      <div className="dashboard-clouds">
-        <img src="/svgs/Cloud 1.svg" alt="" className="dashboard-cloud dashboard-cloud-left" style={{ top: '5%', left: '5%', '--cloud-duration': '80s' } as React.CSSProperties} />
-        <img src="/svgs/Cloud 2.svg" alt="" className="dashboard-cloud dashboard-cloud-right" style={{ top: '25%', right: '10%', '--cloud-duration': '100s' } as React.CSSProperties} />
-        <img src="/svgs/Cloud 3.svg" alt="" className="dashboard-cloud dashboard-cloud-left" style={{ top: '45%', left: '15%', '--cloud-duration': '90s' } as React.CSSProperties} />
-        <img src="/svgs/Cloud 4.svg" alt="" className="dashboard-cloud dashboard-cloud-right" style={{ top: '65%', right: '5%', '--cloud-duration': '110s' } as React.CSSProperties} />
-        <img src="/svgs/Cloud 5.svg" alt="" className="dashboard-cloud dashboard-cloud-left" style={{ top: '85%', left: '10%', '--cloud-duration': '95s' } as React.CSSProperties} />
-      </div>
+    <div className="min-h-screen" style={{ background: 'transparent' }}>
 
       {/* Header */}
       <header style={{
@@ -269,7 +268,9 @@ export const CommentPage = () => {
                 </div>
                 
                 <div className="container--card--content">
-                    <p className='comment--number'>{comments.length}</p>
+                    <p className='comment--number'>
+                      {drawingIndex >= 0 ? currentDrawings[drawingIndex].comments.length : 0}
+                    </p>
                     <img src="/svgs/Logo P.svg" width="30px" className='flipped'></img>
                 </div>
             </div>
@@ -279,8 +280,8 @@ export const CommentPage = () => {
                 <div className='comments-container'>
                     <div className='comments--list'>
                         <ul>
-                            {comments.map((comment, index) => (
-                            <li key={index}>{comment}</li>
+                            {drawingIndex >= 0 && currentDrawings[drawingIndex].comments.map((comment, index) => (
+                              <li key={index}>{comment.comment}</li>
                             ))}
                         </ul>
                     </div>
