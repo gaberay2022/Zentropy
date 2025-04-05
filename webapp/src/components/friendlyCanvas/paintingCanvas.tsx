@@ -449,45 +449,9 @@ y="${rel_Y-props.penSize/2+32}">
     );
 });
 
-function getStampSVG(mode: number, color: string, size: number, x: number, y: number): string {
-    const baseAttrs = `style="width: ${size}px; height: ${size}px" x="${x - size / 2}" y="${y - size / 2}"`;
-    const styleBlock = `.cls-1 { fill: ${color}; stroke: #231f20; stroke-miterlimit: 10; stroke-width: 9px; }`;
-
-    switch (mode) {
-        case 5:
-            return `<?xml version="1.0" encoding="UTF-8"?>
-                <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" ${baseAttrs}>
-                    <defs><style>${styleBlock}</style></defs>
-                    <g id="Layer_2-2" data-name="Layer 2">
-                        <rect class="cls-1" x="4.5" y="4.5" width="103.15" height="103.06" rx="13.66" ry="13.66"/>
-                    </g>
-                </svg>`;
-
-        case 6:
-            return `<?xml version="1.0" encoding="UTF-8"?>
-                <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.08 111.97" ${baseAttrs}>
-                    <defs><style>${styleBlock}</style></defs>
-                    <g id="Layer_2-2" data-name="Layer 2">
-                        <path class="cls-1" d="M51.64,7.22L5.03,100.35c-1.64,3.27.74,7.12,4.4,7.12h93.23c3.66,0,6.03-3.85,4.4-7.12L60.44,7.22c-1.81-3.62-6.98-3.62-8.79,0Z"/>
-                    </g>
-                </svg>`;
-
-        case 7:
-            return `<?xml version="1.0" encoding="UTF-8"?>
-                <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.15 112.1" ${baseAttrs}>
-                    <defs><style>${styleBlock}</style></defs>
-                    <g id="Layer_2-2" data-name="Layer 2">
-                        <path class="cls-1" d="M57.12,5.2l12.83,31.03c.8,1.94,2.6,3.28,4.69,3.49l31.99,3.25c.97.1,1.37,1.29.66,1.95l-24.3,22.63c-1.46,1.36-2.1,3.39-1.69,5.34l7.02,33.34c.2.97-.86,1.72-1.7,1.19l-27.53-17.06c-1.84-1.14-4.16-1.14-6,0l-27.53,17.06c-.84.52-1.91-.22-1.7-1.19l7.02-33.34c.41-1.96-.23-3.98-1.69-5.34L4.86,44.92c-.71-.66-.31-1.85.66-1.95l31.99-3.25c2.09-.21,3.89-1.55,4.69-3.49l12.83-31.03c.38-.93,1.7-.93,2.09,0Z"/>
-                    </g>
-                </svg>`;
-
-        default:
-            return '';
-    }
-}
 
 function Canvas(): JSX.Element {
-    const [penSize, setPenSize] = useState(10);
+    const [penSize, setPenSize] = useState(50);
     const [selectedStrokeOption, setSelectedStrokeOption] = useState(1);
     const [currColor, setCurrColor] = useState("#2596be");
     const [stampSelectorVisible, setStampSelectorVisible] = useState(false);
@@ -599,7 +563,8 @@ function Canvas(): JSX.Element {
                          onClick={() => {
                              setSelectedStrokeOption(2)
                          }}/>
-                    <div>
+                    <div style={{height: "fit-content", width: "100%", display: "flex", justifyContent: "center"}}>
+
                     <img src={Stamp_Icon} className={"ModeButton"} alt={"Brush"}
                          onClick={() => {
                             setStampSelectorVisible(true)

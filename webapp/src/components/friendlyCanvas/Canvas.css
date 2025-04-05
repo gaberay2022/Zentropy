@@ -19,7 +19,7 @@
     font: inherit;
     cursor: pointer;
     outline: inherit;
-    width: 100%;
+    width: 80%;
     height: 40px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -52,6 +52,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
 }
 
 .TopBar {
@@ -245,26 +246,4 @@ input[type="range"]::-moz-range-thumb {
 input[type="color"] {
     width: 2rem;
     height: 2rem;
-}
-
-
-.RectStamp{
-    width: 50px;
-    height: 50px;
-    mask: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.15 112.06"><defs><style> .cls-1 { fill: none; stroke: %23231f20; stroke-miterlimit: 10; stroke-width: 9px; } </style></defs><g id="Layer_2-2" data-name="Layer 2"><rect class="cls-1" x="4.5" y="4.5" width="103.15" height="103.06" rx="13.66" ry="13.66"/></g></svg>') no-repeat center / contain;
-    -webkit-mask: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.15 112.06"><defs><style> .cls-1 { fill: none; stroke: %23231f20; stroke-miterlimit: 10; stroke-width: 9px; } </style></defs><g id="Layer_2-2" data-name="Layer 2"><rect class="cls-1" x="4.5" y="4.5" width="103.15" height="103.06" rx="13.66" ry="13.66"/></g></svg>') no-repeat center / contain;
-}
-.TriangleStamp{
-    width: 50px;
-    height: 50px;
-    mask: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.08 111.97"><defs><style> .cls-1 { fill: none; stroke: %23231f20; stroke-miterlimit: 10; stroke-width: 9px; } </style></defs><g id="Layer_2-2" data-name="Layer 2"><path class="cls-1" d="M51.64,7.22L5.03,100.35c-1.64,3.27.74,7.12,4.4,7.12h93.23c3.66,0,6.03-3.85,4.4-7.12L60.44,7.22c-1.81-3.62-6.98-3.62-8.79,0Z"/></g></svg>') no-repeat center/contain;
-    -webkit-mask: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.08 111.97"><defs><style> .cls-1 { fill: none; stroke: %23231f20; stroke-miterlimit: 10; stroke-width: 9px; } </style></defs><g id="Layer_2-2" data-name="Layer 2"><path class="cls-1" d="M51.64,7.22L5.03,100.35c-1.64,3.27.74,7.12,4.4,7.12h93.23c3.66,0,6.03-3.85,4.4-7.12L60.44,7.22c-1.81-3.62-6.98-3.62-8.79,0Z"/></g></svg>') no-repeat center/contain;
-}
-.StarStamp{
-    width: 50px;
-    height: 50px;
-}
-.HexagonStamp{
-    width: 50px;
-    height: 50px;
 }
