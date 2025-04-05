@@ -50,21 +50,22 @@ function Encouragement() {
 
     return (
         <div className="EncouragementWrapper">
-            <img 
-                className="Encouragement" 
-                src={encouragements[encouragementIndex.current]} 
-                alt="Encouragement" 
+            <img
+                className="Encouragement"
+                src={encouragements[encouragementIndex.current]}
+                alt="Encouragement"
                 id="encouragement_1"
             />
-            <img 
-                className="Encouragement" 
-                src={encouragements[(encouragementIndex.current + 1) % encouragements.length]} 
-                style={{ display: "none" }} 
-                alt="Encouragement" 
+            <img
+                className="Encouragement"
+                src={encouragements[(encouragementIndex.current + 1) % encouragements.length]}
+                style={{ display: "none" }}
+                alt="Encouragement"
                 id="encouragement_2"
             />
         </div>
     );
 }
+
 
 export default Encouragement;
