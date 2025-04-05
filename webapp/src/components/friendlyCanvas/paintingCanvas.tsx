@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import './Canvas.css';
 import { Button } from "@aws-amplify/ui-react";
+
 import FloodFill from 'q-floodfill';
 import axios from 'axios';
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -85,6 +86,7 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
                     floodFill.fill(props.color, rel_X, rel_Y, 64);
                     ctx.putImageData(floodFill.imageData, 0, 0);
                     break;
+
             }
         }
     }
@@ -152,7 +154,7 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
             const rel_Y = Math.floor(e.clientY - boundingBox.top);
             ctx.fillStyle = props.color;
             ctx.strokeStyle = props.color;
-
+            let v: Canvg
             switch (props.strokeMode) {
                 case 4:
                     const imgData = ctx.getImageData(0, 0, props.width, props.height);
@@ -162,17 +164,96 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
                     break;
 
                 case 5:
-                case 6:
-                case 7:
-                    const svgContent = getStampSVG(props.strokeMode, props.color, props.penSize, rel_X, rel_Y);
-                    if (svgContent) {
-                        const img = new Image();
-                        img.src = `data:image/svg+xml;base64,${btoa(svgContent)}`;
-                        img.onload = () => {
-                            ctx.drawImage(img, rel_X - props.penSize / 2, rel_Y - props.penSize / 2, props.penSize, props.penSize);
-                        };
-                    }
+                    v = Canvg.fromString(ctx, `<?xml version="1.0" encoding="UTF-8"?>
+                       <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" 
+                        style="width: ${props.penSize}px; height: ${props.penSize}px" 
+                        x="${rel_X-props.penSize/2+16}" 
+                        y="${rel_Y-props.penSize/2+32}">
+                          <defs>
+                            <style>
+                              .cls-1 {
+                                fill: ${props.color};
+                                stroke: #231f20;
+                                stroke-miterlimit: 10;
+                                stroke-width: 9px;
+                              }
+                            </style>
+                          </defs>
+                          <g id="Layer_2-2" data-name="Layer 2">
+                            <rect class="cls-1" x="4.5" y="4.5" width="103.15" height="103.06" rx="13.66" ry="13.66"/></g></svg>`, {ignoreDimensions: true, ignoreClear: true})
+                    v.start();
+                    v.stop();
                     break;
+                case 6 :
+                    v = Canvg.fromString(ctx, `<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.08 111.97" style="width: ${props.penSize}px; height: ${props.penSize}px" 
+                        x="${rel_X-props.penSize/2+16}" 
+                        y="${rel_Y-props.penSize/2+32}">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: ${props.color};
+        stroke: #231f20;
+        stroke-miterlimit: 10;
+        stroke-width: 9px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_2-2" data-name="Layer 2">
+    <path class="cls-1" d="M51.64,7.22L5.03,100.35c-1.64,3.27.74,7.12,4.4,7.12h93.23c3.66,0,6.03-3.85,4.4-7.12L60.44,7.22c-1.81-3.62-6.98-3.62-8.79,0Z"/>
+  </g>
+</svg>`, {ignoreDimensions: true, ignoreClear: true})
+                    v.start();
+                    v.stop();
+                    break;
+                case 7 :
+                    v = Canvg.fromString(ctx, `<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.15 112.1"
+style="width: ${props.penSize}px; height: ${props.penSize}px" 
+                        x="${rel_X-props.penSize/2+16}" 
+                        y="${rel_Y-props.penSize/2+32}"
+>
+  <defs>
+    <style>
+      .cls-1 {
+        fill: ${props.color};
+        stroke: #231f20;
+        stroke-miterlimit: 10;
+        stroke-width: 9px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_2-2" data-name="Layer 2">
+    <path class="cls-1" d="M57.12,5.2l12.83,31.03c.8,1.94,2.6,3.28,4.69,3.49l31.99,3.25c.97.1,1.37,1.29.66,1.95l-24.3,22.63c-1.46,1.36-2.1,3.39-1.69,5.34l7.02,33.34c.2.97-.86,1.72-1.7,1.19l-27.53-17.06c-1.84-1.14-4.16-1.14-6,0l-27.53,17.06c-.84.52-1.91-.22-1.7-1.19l7.02-33.34c.41-1.96-.23-3.98-1.69-5.34L4.86,44.92c-.71-.66-.31-1.85.66-1.95l31.99-3.25c2.09-.21,3.89-1.55,4.69-3.49l12.83-31.03c.38-.93,1.7-.93,2.09,0Z"/>
+  </g>
+</svg>`, {ignoreDimensions: true, ignoreClear: true})
+                    v.start();
+                    v.stop();
+                    break;
+
+                case 8 :
+                    v = Canvg.fromString(ctx, `<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.17 111.63"
+style="width: ${props.penSize}px; height: ${props.penSize}px"
+x="${rel_X-props.penSize/2+16}"
+y="${rel_Y-props.penSize/2+32}">
+>
+  <defs>
+    <style>
+      .cls-1 {
+        fill: ${props.color};
+        stroke: #231f20;
+        stroke-miterlimit: 10;
+        stroke-width: 9px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_2-2" data-name="Layer 2">
+    <path class="cls-1" d="M75.2,4.5h-38.24c-4.57,0-8.77,2.55-10.87,6.61L5.87,50.19c-1.83,3.53-1.83,7.73,0,11.25l20.23,39.07c2.1,4.06,6.3,6.61,10.87,6.61h38.24c4.57,0,8.77-2.55,10.87-6.61l20.23-39.07c1.83-3.53,1.83-7.73,0-11.25l-20.23-39.07c-2.1-4.06-6.3-6.61-10.87-6.61Z"/>
+  </g>
+</svg>`, {ignoreDimensions: true, ignoreClear: true})
+                    v.start();
+                    v.stop();
 
                 default:
                     break;
@@ -453,6 +534,7 @@ function Canvas(): JSX.Element {
     }, []);
 
     return (
+
         <>
             <div className="CanvasColumnWrapper">
                 <div className="TopBar">
