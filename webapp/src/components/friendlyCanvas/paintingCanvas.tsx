@@ -1,15 +1,22 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import './Canvas.css'
+import './Canvas.css';
 import { Button } from "@aws-amplify/ui-react";
+import FloodFill from 'q-floodfill';
+import axios from 'axios';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import ReactDOM from 'react-dom';
+
+import paintbrush_cursor from "./paintbrush_cursor.ico";
+import spray_cursor from "./spray_cursor.ico";
+import stamp_cursor from "./stamp_cursor.ico";
+import eraser_cursor from "./eraser_cursor.ico";
+import paintbucket_cursor from "./paintbucket_cursor.ico";
 import FloodFill from 'q-floodfill'
 import {Canvg, Translate} from 'canvg'
 import CssFilterConverter from 'css-filter-converter';
 
-import paintbrush_cursor from "./paintbrush_cursor.ico"
-import spray_cursor from "./spray_cursor.ico"
-import stamp_cursor from "./stamp_cursor.ico"
-import eraser_cursor from "./eraser_cursor.ico"
-import paintbucket_cursor from "./paintbucket_cursor.ico"
+import clear_button from "/svgs/clear_button.svg";
+import save_button from "/svgs/save_button.svg";
 
 import Brush_Icon from "/svgs/Brush_Icon.svg"
 import Bucket_Icon from "/svgs/Bucket_Icon.svg"
@@ -27,39 +34,62 @@ import stamp_Triangle from "/svgs/Stamp_Triangle.svg"
 
 import clear_button from "/svgs/clear_button.svg"
 import save_button from "/svgs/save_button.svg"
+import { SaveDialog } from './SaveDialog';
+
+// Create axios instance with default config
+const api = axios.create({
+    baseURL: 'http://localhost:3002',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+});
 
 interface DrawingProps {
-    width: number,
-    height: number,
-    penSize: number,
-    strokeMode: number,
-    color: string,
-    clearCanvas: boolean
+    width: number;
+    height: number;
+    penSize: number;
+    strokeMode: number;
+    color: string;
+    clearCanvas: boolean;
 }
 
 interface MousePos {
-    x: number,
-    y: number
+    x: number;
+    y: number;
 }
 
 interface LastPos {
-    x: number | null,
-    y: number | null
+    x: number | null;
+    y: number | null;
 }
 
-function Drawing(props: DrawingProps) {
-    const mouseMoveModes = [1, 2, 3]
-    const mouseDownModes = [4, 5, 6, 7, 8, 9, 10]
-    const [mousePos, setMousePos] = useState<MousePos>({ x: 0, y: 0 })
-    const [mouseOverCanvas, setMouseOverCanvas] = useState<boolean>(false)
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) => {
+    const mouseMoveModes = [1, 2, 3];
+    const mouseDownModes = [4, 5, 6, 7, 8, 9, 10];
+    const [mousePos, setMousePos] = useState<MousePos>({ x: 0, y: 0 });
+    const [mouseOverCanvas, setMouseOverCanvas] = useState<boolean>(false);
     const isMouseDown = useRef<boolean>(false);
     const lastPos = useRef<LastPos>({ x: null, y: null });
 
+    const cursorStyle = useMemo(() => {
+        switch (props.strokeMode) {
+            case 1: return `url(${paintbrush_cursor}), auto`;
+            case 2: return `url(${spray_cursor}), auto`;
+            case 3: return `url(${eraser_cursor}), auto`;
+            case 4: return `url(${paintbucket_cursor}), auto`;
+            case 5:
+            case 6:
+            case 7: return `url(${stamp_cursor}), auto`;
+            default: return "auto";
+        }
+    }, [props.strokeMode]);
+
     async function drawOnTap(e: React.TouchEvent<HTMLCanvasElement>) {
-        if (canvasRef.current) {
-            const boundingBox = canvasRef.current.getBoundingClientRect();
-            const ctx = canvasRef.current.getContext('2d');
+        const canvas = ref as React.RefObject<HTMLCanvasElement>;
+        if (canvas.current) {
+            const boundingBox = canvas.current.getBoundingClientRect();
+            const ctx = canvas.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = Math.floor(e.touches[0].clientX - boundingBox.left);
@@ -74,15 +104,15 @@ function Drawing(props: DrawingProps) {
                     floodFill.fill(props.color, rel_X, rel_Y, 64);
                     ctx.putImageData(floodFill.imageData, 0, 0);
                     break;
-
             }
         }
     }
 
     async function drawOnDrag(e: React.TouchEvent<HTMLCanvasElement>) {
-        if (canvasRef.current && isMouseDown.current) {
-            const boundingBox = canvasRef.current.getBoundingClientRect();
-            const ctx = canvasRef.current.getContext('2d');
+        const canvas = ref as React.RefObject<HTMLCanvasElement>;
+        if (canvas.current && isMouseDown.current) {
+            const boundingBox = canvas.current.getBoundingClientRect();
+            const ctx = canvas.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = e.touches[0].clientX - boundingBox.left;
@@ -131,9 +161,10 @@ function Drawing(props: DrawingProps) {
     }
 
     async function drawOnClick(e: React.MouseEvent<HTMLCanvasElement>) {
-        if (canvasRef.current) {
-            const boundingBox = canvasRef.current.getBoundingClientRect();
-            const ctx = canvasRef.current.getContext('2d');
+        const canvas = ref as React.RefObject<HTMLCanvasElement>;
+        if (canvas.current) {
+            const boundingBox = canvas.current.getBoundingClientRect();
+            const ctx = canvas.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = Math.floor(e.clientX - boundingBox.left);
@@ -248,9 +279,10 @@ y="${rel_Y-props.penSize/2+32}">
     }
 
     function draw(e: React.MouseEvent<HTMLCanvasElement>) {
-        if (canvasRef.current && isMouseDown.current) {
-            const boundingBox = canvasRef.current.getBoundingClientRect();
-            const ctx = canvasRef.current.getContext('2d');
+        const canvas = ref as React.RefObject<HTMLCanvasElement>;
+        if (canvas.current && isMouseDown.current) {
+            const boundingBox = canvas.current.getBoundingClientRect();
+            const ctx = canvas.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = e.clientX - boundingBox.left;
@@ -322,26 +354,14 @@ y="${rel_Y-props.penSize/2+32}">
     }
 
     useEffect(() => {
-        if (props.clearCanvas && canvasRef.current) {
-            const ctx = canvasRef.current.getContext('2d');
+        const canvas = ref as React.RefObject<HTMLCanvasElement>;
+        if (props.clearCanvas && canvas.current) {
+            const ctx = canvas.current.getContext('2d');
             if (ctx) {
                 ctx.clearRect(0, 0, props.width, props.height);
             }
         }
     }, [props.clearCanvas, props.width, props.height]);
-
-    const cursorStyle = useMemo(() => {
-        switch (props.strokeMode) {
-            case 1: return `url(${paintbrush_cursor}), auto`;
-            case 2: return `url(${spray_cursor}), auto`;
-            case 3: return `url(${eraser_cursor}), auto`;
-            case 4: return `url(${paintbucket_cursor}), auto`;
-            case 5:
-            case 6:
-            case 7: return `url(${stamp_cursor}), auto`;
-            default: return "auto";
-        }
-    }, [props.strokeMode]);
 
     return (
         <>
@@ -356,7 +376,7 @@ y="${rel_Y-props.penSize/2+32}">
                         cursor: cursorStyle
                     }}
                     className="drawingCanvas"
-                    ref={canvasRef}
+                    ref={ref}
                     onMouseDown={() => isMouseDown.current = true}
                     onMouseUp={endStrokeHandler}
                     onMouseMove={handleMouseMove}
@@ -427,7 +447,7 @@ y="${rel_Y-props.penSize/2+32}">
             )}
         </>
     );
-}
+});
 
 function getStampSVG(mode: number, color: string, size: number, x: number, y: number): string {
     const baseAttrs = `style="width: ${size}px; height: ${size}px" x="${x - size / 2}" y="${y - size / 2}"`;
@@ -466,12 +486,47 @@ function getStampSVG(mode: number, color: string, size: number, x: number, y: nu
     }
 }
 
-function Canvas() {
+function Canvas(): JSX.Element {
     const [penSize, setPenSize] = useState(10);
     const [selectedStrokeOption, setSelectedStrokeOption] = useState(1);
     const [currColor, setCurrColor] = useState("#2596be");
     const [stampSelectorVisible, setStampSelectorVisible] = useState(false);
     const [clearCanvas, setClearCanvas] = useState(false);
+    const [showSaveDialog, setShowSaveDialog] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const { user } = useAuthenticator((context) => [context.user]);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    const handleSave = async (title: string) => {
+        if (!canvasRef.current || !user || isSaving) return;
+
+        try {
+            setIsSaving(true);
+
+            // First get or create user using their email
+            const userEmail = user.username;
+            const userResponse = await api.get(`/api/users?email=${userEmail}`);
+            const userId = userResponse.data.user_id;
+
+            // Convert canvas to base64 string
+            const imageData = canvasRef.current.toDataURL('image/png').split(',')[1];
+
+            // Send to backend
+            await api.post('/api/images', {
+                userId,
+                imageData,
+                title
+            });
+
+            setShowSaveDialog(false);
+            // Optional: Show success message or redirect
+        } catch (error) {
+            console.error('Error saving image:', error);
+            // You might want to show an error message to the user here
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     function handlePenSizeChange(e: React.ChangeEvent<HTMLInputElement>) {
         setPenSize(+e.target.value);
@@ -496,6 +551,7 @@ function Canvas() {
     }, []);
 
     return (
+        <>
         <div className="CanvasColumnWrapper">
             <div className="TopBar">
                 <img
@@ -510,7 +566,7 @@ function Canvas() {
                     className="TopBarButton"
                     style={{ marginRight: "auto" }}
                     alt="Save"
-                    onClick={() => undefined}
+                    onClick={() => setShowSaveDialog(true)}
                 />
                 <div className="SizeText">
                     Stroke: {penSize}px
@@ -585,6 +641,13 @@ function Canvas() {
             </div>
 
         </div>
+    {showSaveDialog && (
+        <SaveDialog
+            onSave={handleSave}
+            onCancel={() => setShowSaveDialog(false)}
+        />
+    )}
+    </>
     );
 }
 
