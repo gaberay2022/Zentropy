@@ -202,12 +202,6 @@ export const Dashboard = () => {
           >
             Community
           </button>
-          <button 
-            onClick={() => navigate('/gallery')}
-            className="dashboard-button"
-          >
-            Gallery
-          </button>
         </div>
 
         {/* Recent Projects */}

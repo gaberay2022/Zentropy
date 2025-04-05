@@ -582,14 +582,36 @@ y="${rel_Y-props.penSize+32}"
         const navigate = useNavigate();
         navigate("/dashboard")
     }
-
+    const funnyNegativeComments = [
+        'Did you use a spaghetti noodle for your pencil?',
+        'It looks like a Picasso… if Picasso had a rough day.',
+        'Did you accidentally draw that with your eyes closed?',
+        'This is what happens when you ask a toddler to do a self-portrait.',
+        'I think you’ve invented a whole new art style... it’s called "abstract confusion."',
+        'Is this supposed to be art, or are we testing the limits of human patience?',
+        'I’ve seen stick figures with more personality.',
+        'I think the eraser is your best friend here.',
+        'Is this a drawing, or did you just spill some paint and call it a day?',
+        'Did you do this in MS Paint with a mouse?',
+        'When you said "sketch," I thought you meant "art," not a game of Pictionary.',
+        'It’s like the colors are fighting for attention, but none of them are winning.',
+        'I can’t tell if this is a self-portrait or a map of Middle Earth.',
+        'Your drawing looks like it’s having an identity crisis.',
+        'I wouldn’t call this a masterpiece, but it could be a good start for a horror movie.',
+        'Did the pencil attack the paper, or was this the result of a fierce battle?',
+        'I think it’s beautiful… if abstract chaos is what you’re going for.',
+        'If this is your final draft, I’m scared to see your first one.',
+        'It looks like the paper is more confused than I am.',
+        'It’s like your pencil was in a hurry, and the paper couldn’t keep up.'
+    ];
     useEffect(() => {
         if(props.saveCanvas && canvasRef.current) {
             const ctx = canvasRef.current.getContext('2d');
             if(ctx) {
+                const random_comments = [Math.floor(Math.random()*20), Math.floor(Math.random()*20)]
                 const new_drawing = {
                     data: canvasRef.current.toDataURL(),
-                    comments: []
+                    comments: [funnyNegativeComments[random_comments[0]], funnyNegativeComments[random_comments[1]]]
                 }
                 setCurrentDrawings([...currentDrawings, new_drawing])
                 console.log("Here")

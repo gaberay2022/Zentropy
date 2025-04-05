@@ -7,7 +7,7 @@ interface comment {
 
 interface drawing {
     data: string,
-    comments: comment[]
+    comments: string[]
 }
 
 interface GlobalStateContextType {
