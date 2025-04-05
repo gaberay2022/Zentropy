@@ -1,6 +1,4 @@
-"use client";
-import React, {createContext, useContext, useState, useEffect, ReactNode} from "react";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import React, {createContext, useContext, useState, ReactNode} from "react";
 
 interface comment {
     commenter: string,
@@ -8,8 +6,7 @@ interface comment {
 }
 
 interface drawing {
-    time_Created: Date,
-    data: Blob,
+    data: string,
     comments: comment[]
 }
 
@@ -18,33 +15,13 @@ interface GlobalStateContextType {
     setCurrentDrawings: (drawing: drawing[]) => void,
 }
 
-interface activeParentIdsInterface {
-    preloadParentId: string | undefined,
-    visibleParentIds: string[]
-}
-
 const GlobalStateContext = createContext<GlobalStateContextType | undefined>(undefined);
 
 export function GlobalStateProvider({ children }: { children: ReactNode }) {
-    const [currentDrawings, setCurrentDrawings] = useState<string | undefined>(undefined);
-    const [activeParentIds, setActiveParentIds] = useState<activeParentIdsInterface>({
-        preloadParentId: undefined,
-        visibleParentIds: []
-    });
-    const [fileId, setFileId] = useState<string | undefined>(undefined);
-    const [userId, setUserId] = useState<string | null>(null);
-    const [contextMenu, setContextMenu] = useState<boolean>(false);
-    const [contextMenuType, setContextMenuType] = useState<string>("file");
-    const [heldKeys, setHeldKeys] = useState<Array<string>>([]);
-    useEffect(() => {
-        if (user?.userId) {
-            setUserId(user.userId); // Automatically assign userId
-        }
-    }, [user]);
+    const [currentDrawings, setCurrentDrawings] = useState<drawing[]>([]);
 
     return (
-        <GlobalStateContext.Provider value={{ projectId, setProjectId, activeParentIds, setActiveParentIds, fileId, setFileId, userId, contextMenu, setContextMenu,
-            contextMenuType, setContextMenuType, heldKeys, setHeldKeys}}>
+        <GlobalStateContext.Provider value={{ currentDrawings, setCurrentDrawings}}>
             {children}
         </GlobalStateContext.Provider>
     );

@@ -3,7 +3,6 @@ import './Canvas.css'
 import { Button } from "@aws-amplify/ui-react";
 import FloodFill from 'q-floodfill'
 import {Canvg, Translate} from 'canvg'
-import CssFilterConverter from 'css-filter-converter';
 
 import paintbrush_cursor from "./paintbrush_cursor.ico"
 import spray_cursor from "./spray_cursor.ico"
@@ -17,14 +16,16 @@ import Eraser_Icon from "/svgs/Eraser_Icon.svg"
 import Spray_Icon from "/svgs/Spray_Icon.svg"
 import Stamp_Icon from "/svgs/Stamp_Icon.svg"
 
-import stamp_Bird from "/svgs/Bird_Stamp.svg"
-import stamp_Owl from "/svgs/Owl_Stamp.svg"
-import stamp_Cat from "/svgs/Cat_Stamp.svg"
 import stamp_Hexagon from "/svgs/Stamp_Hexagon.svg"
 import stamp_Rect from "/svgs/Stamp_Rectangle.svg"
 import stamp_Star from "/svgs/Stamp_Star.svg"
 import stamp_Triangle from "/svgs/Stamp_Triangle.svg"
+import stamp_Cat from "/svgs/Cat_Stamp.svg"
+import stamp_Owl from "/svgs/Owl_Stamp.svg"
+import stamp_Bird from "/svgs/Bird_Stamp.svg"
 
+
+import { useGlobalState } from "../../GlobalStateContext"
 
 
 import clear_button from "/svgs/clear_button.svg"
@@ -36,7 +37,8 @@ interface DrawingProps {
     penSize: number,
     strokeMode: number,
     color: string,
-    clearCanvas: boolean
+    clearCanvas: boolean,
+    saveCanvas: boolean
 }
 
 interface MousePos {
@@ -50,6 +52,7 @@ interface LastPos {
 }
 
 function Drawing(props: DrawingProps) {
+    const {currentDrawings, setCurrentDrawings} = useGlobalState();
     const mouseMoveModes = [1, 2, 3]
     const mouseDownModes = [4, 5, 6, 7, 8, 9, 10, 11]
     const [mousePos, setMousePos] = useState<MousePos>({ x: 0, y: 0 })
@@ -57,6 +60,8 @@ function Drawing(props: DrawingProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const isMouseDown = useRef<boolean>(false);
     const lastPos = useRef<LastPos>({ x: null, y: null });
+
+
 
     async function drawOnTap(e: React.TouchEvent<HTMLCanvasElement>) {
         if (canvasRef.current) {
@@ -570,6 +575,20 @@ y="${rel_Y-props.penSize+32}"
         }
     }, [props.clearCanvas, props.width, props.height]);
 
+    useEffect(() => {
+        if(props.saveCanvas && canvasRef.current) {
+            const ctx = canvasRef.current.getContext('2d');
+            if(ctx) {
+                const new_drawing = {
+                    data: canvasRef.current.toDataURL(),
+                    comments: []
+                }
+                setCurrentDrawings([...currentDrawings, new_drawing])
+            }
+
+        }
+
+    })
 
     return (
         <>
@@ -694,7 +713,9 @@ function Canvas() {
             document.removeEventListener("click", handleClick);
         };
     }, []);
+    function saveDrawing() {
 
+    }
     return (
         <div className="CanvasColumnWrapper">
             <div className="TopBar">
@@ -710,7 +731,7 @@ function Canvas() {
                     className="TopBarButton"
                     style={{ marginRight: "auto" }}
                     alt="Save"
-                    onClick={() => undefined}
+                    onClick={() => saveDrawing()}
                 />
                 <div className="SizeText">
                     Stroke: {penSize}px
