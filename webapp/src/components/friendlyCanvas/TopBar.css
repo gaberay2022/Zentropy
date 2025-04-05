@@ -10,7 +10,6 @@
 
 .TopBarButton {
     background: none;
-    color: inherit;
     border: none;
     padding-right: 1rem;
     padding-left: 1rem;
@@ -20,5 +19,6 @@
     font-size: 40px;
     font-family: "Delius Unicase", cursive;
     font-weight: 700;
+    color: black;
 }
 

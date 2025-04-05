@@ -290,7 +290,12 @@ style="width: ${props.penSize}px; height: ${props.penSize}px"
     }
 
     useEffect(() => {
-        console.log("Made it here!!")
+        if(props.clearCanvas){
+            if(canvasRef.current){
+                const ctx = canvasRef.current.getContext('2d') as CanvasRenderingContext2D;
+                ctx.clearRect(0,0,props.width, props.height)
+            }
+        }
     }, [props.clearCanvas])
     //TODO implement full touch support
     return (
@@ -303,7 +308,7 @@ style="width: ${props.penSize}px; height: ${props.penSize}px"
                                 props.strokeMode == 2 ? "url(" + spray_cursor + "), auto" :
                                     props.strokeMode == 3 ? "url(" + eraser_cursor + "), auto" :
                                         props.strokeMode == 4 ? "url(" + paintbucket_cursor + "), auto" :
-                                            props.strokeMode == 5 || props.strokeMode == 6 ? "url(" + stamp_cursor + "), auto" :
+                                            props.strokeMode == 5 || props.strokeMode == 6 || props.strokeMode == 7 ? "url(" + stamp_cursor + "), auto" :
                                                 "auto"
 
                         }}
