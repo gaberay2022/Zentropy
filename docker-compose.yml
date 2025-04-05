@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: zentropy_db
+    environment:
+      POSTGRES_USER: zentropy_user
+      POSTGRES_PASSWORD: zentropy_password
+      POSTGRES_DB: zentropydb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zentropy_user -d zentropydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - zentropy_network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: zentropy_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@zentropy.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+    ports:
+      - "5050:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - zentropy_network
+
+volumes:
+  postgres_data:
+    name: zentropy_postgres_data
+
+networks:
+  zentropy_network:
+    name: zentropy_zentropy_network
+    driver: bridge
