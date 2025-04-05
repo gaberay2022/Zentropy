@@ -41,7 +41,7 @@ export const Community = () => {
                     <img src="/svgs/Bald sun guy 1.svg" alt="Sample Drawing"/>
                 </div>
                 <div className="container--card--content">
-                    <p className='comment--number'>234</p>
+                    <p className='comment--number'>12</p>
                     <img src="/svgs/Logo P.svg" width="30px" className='flipped'></img>
                 </div>
             </div>
@@ -50,7 +50,7 @@ export const Community = () => {
                     <img src="/svgs/Bald sun guy 1.svg" alt="Sample Drawing"/>
                 </div>
                 <div className="container--card--content">
-                    <p className='comment--number'>234</p>
+                    <p className='comment--number'>2</p>
                     <img src="/svgs/Logo P.svg" width="30px" className='flipped'></img>
                 </div>
             </div>
@@ -59,7 +59,7 @@ export const Community = () => {
                     <img src="/svgs/Bald sun guy 1.svg" alt="Sample Drawing"/>
                 </div>
                 <div className="container--card--content">
-                    <p className='comment--number'>234</p>
+                    <p className='comment--number'>200</p>
                     <img src="/svgs/Logo P.svg" width="30px" className='flipped'></img>
                 </div>
             </div>
@@ -68,7 +68,7 @@ export const Community = () => {
                     <img src="/svgs/Bald sun guy 1.svg" alt="Sample Drawing"/>
                 </div>
                 <div className="container--card--content">
-                    <p className='comment--number'>234</p>
+                    <p className='comment--number'>34</p>
                     <img src="/svgs/Logo P.svg" width="30px" className='flipped'></img>
                 </div>
             </div>
@@ -77,7 +77,7 @@ export const Community = () => {
                     <img src="/svgs/Bald sun guy 1.svg" alt="Sample Drawing"/>
                 </div>
                 <div className="container--card--content">
-                    <p className='comment--number'>234</p>
+                    <p className='comment--number'>13</p>
                     <img src="/svgs/Logo P.svg" width="30px" className='flipped'></img>
                 </div>
             </div>

@@ -260,7 +260,7 @@ export const CommentPage = () => {
                 </div>
                 
                 <div className="container--card--content">
-                    <p className='comment--number'>234</p>
+                    <p className='comment--number'>{comments.length}</p>
                     <img src="/svgs/Logo P.svg" width="30px" className='flipped'></img>
                 </div>
             </div>
