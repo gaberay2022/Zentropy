@@ -1,9 +1,64 @@
-body {
-    margin: 0;
+.App {
+  width: 100vw;
+  height: 100vh;
+  background-color: #FFF5DA;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
 }
 
-.App {
-    height: 100vh;
-    width: 100vw;
-    background-color: #FFF5DA;
+.clouds-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.cloud {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.3;
+  width: 120px;
+  height: auto;
+}
+
+.top-bar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+/* Main content layout */
+.canvas-container {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 96px);
+  margin-top: 96px;
+  position: relative;
+  z-index: 10;
+  padding: 0 20px;
+}
+
+/* Canvas and encouragement components */
+.canvas-container > * {
+  flex: 1;
+  height: 100%;
+  position: relative;
+}
+
+/* Canvas container */
+.canvas-container > :first-child {
+  flex: 2;
+  margin-right: 20px;
+}
+
+/* Encouragement container */
+.canvas-container > :last-child {
+  flex: 1;
 }

@@ -1,37 +1,63 @@
-.EncouragementWrapper{
+.EncouragementWrapper {
     position: relative;
     height: 100%;
     width: 30%;
+    z-index: 50;
 }
 
-.Encouragement{
-    top: 0; /* Position Y halfway in */
-    left: 50%; /* Position X halfway in */
+.Encouragement {
+    top: 0;
+    left: 50%;
     transform: translate(-50%, 0);
     position: absolute;
     height: 80%;
     width: 25vw;
     object-fit: contain;
+    z-index: 50;
 }
 
 @keyframes remove_encouragement {
-    from { transform: translate(-50%, 0) rotate(0deg); }
-    to { transform: translate(30vw, 100vh) rotate(180deg); }
+    0% {
+        transform: translate(-50%, 0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(15vw, 50vh) rotate(90deg);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(30vw, 100vh) rotate(180deg);
+        opacity: 0;
+    }
 }
 
-
-.RemoveEncouragement{
-
-    animation-name: remove_encouragement;
-    animation-duration: 1s;
+.RemoveEncouragement {
+    animation: remove_encouragement 3s ease-in-out forwards;
+    pointer-events: none;
 }
 
-@keyframes insert_encouragement{
-    from {transform: translate(-50vw, -150vh) rotate(-180deg)}
-    to { transform: translate(-50%, 0) rotate(0deg); }
+@keyframes insert_encouragement {
+    0% {
+        transform: translate(-50vw, -150vh) rotate(-180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-25vw, -75vh) rotate(-90deg);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(-50%, 0) rotate(0deg);
+        opacity: 1;
+    }
 }
 
-.AddEncouragement{
-    animation-name: insert_encouragement;
-    animation-duration: 2s;
+.AddEncouragement {
+    animation: insert_encouragement 3s ease-in-out forwards;
+    pointer-events: none;
+}
+
+/* Ensure animations complete smoothly */
+.Encouragement.RemoveEncouragement,
+.Encouragement.AddEncouragement {
+    will-change: transform, opacity;
 }
