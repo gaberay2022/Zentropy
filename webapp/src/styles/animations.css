@@ -4,13 +4,23 @@
 }
 
 @keyframes cloudMoveLeft {
-  from { transform: translateX(0); }
-  to { transform: translateX(-120vw); }
+  0% { transform: translateX(120vw); }
+  100% { transform: translateX(-120vw); }
 }
 
 @keyframes cloudMoveRight {
-  from { transform: translateX(0); }
-  to { transform: translateX(120vw); }
+  0% { transform: translateX(-120vw); }
+  100% { transform: translateX(120vw); }
+}
+
+@keyframes dashboardCloudLeft {
+  0% { transform: translateX(120vw); }
+  100% { transform: translateX(-120vw); }
+}
+
+@keyframes dashboardCloudRight {
+  0% { transform: translateX(-120vw); }
+  100% { transform: translateX(120vw); }
 }
 
 @keyframes wiggle {
@@ -79,13 +89,27 @@
 
 /* Cloud animations */
 .cloud-left {
-  animation: cloudMoveLeft var(--cloud-duration, 50s) linear forwards;
+  animation: cloudMoveLeft var(--cloud-duration, 50s) linear;
   will-change: transform;
+  animation-iteration-count: infinite;
 }
 
 .cloud-right {
-  animation: cloudMoveRight var(--cloud-duration, 50s) linear forwards;
+  animation: cloudMoveRight var(--cloud-duration, 50s) linear;
   will-change: transform;
+  animation-iteration-count: infinite;
+}
+
+.dashboard-cloud-left {
+  animation: dashboardCloudLeft var(--cloud-duration, 50s) linear;
+  will-change: transform;
+  animation-iteration-count: infinite;
+}
+
+.dashboard-cloud-right {
+  animation: dashboardCloudRight var(--cloud-duration, 50s) linear;
+  will-change: transform;
+  animation-iteration-count: infinite;
 }
 
 /* Sun animations */
@@ -143,7 +167,7 @@
 .home-content-auth .logo-letter:nth-child(8) .logo-letter-inner { animation-delay: 0.35s; }
 
 /* Sun guy and beams wrapper animations */
-.sun-container {
+.home-content .sun-container {
   position: absolute;
   top: 3%;
   right: 5%;
@@ -156,7 +180,7 @@
   transform-origin: center;
 }
 
-.sun-guy-wrapper {
+.home-content .sun-guy-wrapper {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -234,3 +258,24 @@
 .auth-page.visible .form-group:nth-child(3) { animation-delay: 1.1s; }
 .auth-page.visible .form-group:nth-child(4) { animation-delay: 1.2s; }
 .auth-page.visible .form-group:nth-child(5) { animation-delay: 1.3s; }
+
+/* Dashboard specific animations */
+@keyframes dashboardSunBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes dashboardRotateSunBeams {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes dashboardCloudLeft {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(100vw); }
+}
+
+@keyframes dashboardCloudRight {
+  from { transform: translateX(100vw); }
+  to { transform: translateX(-120%); }
+}

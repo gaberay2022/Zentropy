@@ -33,16 +33,43 @@ interface CommentRequest {
 interface QueryParams {
   limit?: string;
   offset?: string;
+  email?: string;
 }
 
 // User routes
 router.post('/users', async (req: Request<{}, {}, CreateUserRequest>, res: Response) => {
   try {
     const { email } = req.body;
+    // Check if user already exists
+    const existingUser = await dbService.getUserByEmail(email);
+    if (existingUser) {
+      res.json(existingUser);
+      return;
+    }
     const user = await dbService.createUser(email);
     res.json(user);
   } catch (error) {
+    console.error('Error creating user:', error);
     res.status(500).json({ error: 'Failed to create user' });
+  }
+});
+
+router.get('/users', async (req: Request<{}, {}, {}, QueryParams>, res: Response) => {
+  try {
+    const { email } = req.query;
+    if (!email) {
+      res.status(400).json({ error: 'Email is required' });
+      return;
+    }
+    const user = await dbService.getUserByEmail(email);
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Error getting user:', error);
+    res.status(500).json({ error: 'Failed to get user' });
   }
 });
 
@@ -53,6 +80,7 @@ router.post('/images', async (req: Request<{}, {}, CreateImageRequest>, res: Res
     const image = await dbService.createImage(userId, imageData, title);
     res.json(image);
   } catch (error) {
+    console.error('Error creating image:', error);
     res.status(500).json({ error: 'Failed to create image' });
   }
 });
@@ -68,6 +96,7 @@ router.put<ImageParams>('/images/:imageId', async (req: Request<ImageParams, {},
     }
     res.json(image);
   } catch (error) {
+    console.error('Error updating image:', error);
     res.status(500).json({ error: 'Failed to update image' });
   }
 });
@@ -83,6 +112,7 @@ router.post<ImageParams>('/images/:imageId/publish', async (req: Request<ImagePa
     await dbService.generateMeanComment(imageId);
     res.json(image);
   } catch (error) {
+    console.error('Error publishing image:', error);
     res.status(500).json({ error: 'Failed to publish image' });
   }
 });
@@ -97,6 +127,7 @@ router.get<ImageParams>('/images/:imageId', async (req: Request<ImageParams>, re
     }
     res.json(image);
   } catch (error) {
+    console.error('Error getting image:', error);
     res.status(500).json({ error: 'Failed to get image' });
   }
 });
@@ -107,6 +138,7 @@ router.get<UserParams>('/users/:userId/images', async (req: Request<UserParams>,
     const images = await dbService.getUserImages(userId);
     res.json(images);
   } catch (error) {
+    console.error('Error getting user images:', error);
     res.status(500).json({ error: 'Failed to get user images' });
   }
 });
@@ -118,6 +150,7 @@ router.get('/community/images', async (req: Request<{}, {}, {}, QueryParams>, re
     const images = await dbService.getCommunityImages(limit, offset);
     res.json(images);
   } catch (error) {
+    console.error('Error getting community images:', error);
     res.status(500).json({ error: 'Failed to get community images' });
   }
 });
@@ -130,6 +163,7 @@ router.post<ImageParams>('/images/:imageId/comments', async (req: Request<ImageP
     const comment = await dbService.addComment(imageId, commentText);
     res.json(comment);
   } catch (error) {
+    console.error('Error adding comment:', error);
     res.status(500).json({ error: 'Failed to add comment' });
   }
 });
@@ -140,6 +174,7 @@ router.get<ImageParams>('/images/:imageId/comments', async (req: Request<ImagePa
     const comments = await dbService.getImageComments(imageId);
     res.json(comments);
   } catch (error) {
+    console.error('Error getting comments:', error);
     res.status(500).json({ error: 'Failed to get comments' });
   }
 });
@@ -151,6 +186,7 @@ router.post<ImageParams>('/images/:imageId/generate-comment', async (req: Reques
     const comment = await dbService.generateMeanComment(imageId);
     res.json(comment);
   } catch (error) {
+    console.error('Error generating mean comment:', error);
     res.status(500).json({ error: 'Failed to generate mean comment' });
   }
 });
