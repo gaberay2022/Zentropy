@@ -30,6 +30,7 @@ import { useGlobalState } from "../../GlobalStateContext"
 
 import clear_button from "/svgs/clear_button.svg"
 import save_button from "/svgs/save_button.svg"
+import {useNavigate} from "react-router-dom";
 
 interface DrawingProps {
     width: number,
@@ -492,6 +493,7 @@ y="${rel_Y-props.penSize+32}"
     }
 
     function draw(e: React.MouseEvent<HTMLCanvasElement>) {
+        console.log(currentDrawings)
         if (canvasRef.current && isMouseDown.current) {
             const boundingBox = canvasRef.current.getBoundingClientRect();
             const ctx = canvasRef.current.getContext('2d');
@@ -575,6 +577,12 @@ y="${rel_Y-props.penSize+32}"
         }
     }, [props.clearCanvas, props.width, props.height]);
 
+    function navHome(){
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const navigate = useNavigate();
+        navigate("/dashboard")
+    }
+
     useEffect(() => {
         if(props.saveCanvas && canvasRef.current) {
             const ctx = canvasRef.current.getContext('2d');
@@ -584,11 +592,14 @@ y="${rel_Y-props.penSize+32}"
                     comments: []
                 }
                 setCurrentDrawings([...currentDrawings, new_drawing])
+                console.log("Here")
+
+
             }
 
         }
 
-    })
+    }, [props.saveCanvas])
 
     return (
         <>
@@ -691,6 +702,7 @@ function Canvas() {
     const [currColor, setCurrColor] = useState("#2596be");
     const [stampSelectorVisible, setStampSelectorVisible] = useState(false);
     const [clearCanvas, setClearCanvas] = useState(false);
+    const [saveCanvas, setSaveCanvas] = useState(false);
 
     function handlePenSizeChange(e: React.ChangeEvent<HTMLInputElement>) {
         setPenSize(+e.target.value);
@@ -714,7 +726,7 @@ function Canvas() {
         };
     }, []);
     function saveDrawing() {
-
+        setSaveCanvas(true);
     }
     return (
         <div className="CanvasColumnWrapper">
@@ -841,7 +853,7 @@ function Canvas() {
 
                 </div>
                 <Drawing width={1600} height={700} penSize={penSize} strokeMode={selectedStrokeOption}
-                         color={currColor} clearCanvas={clearCanvas}/>
+                         color={currColor} clearCanvas={clearCanvas} saveCanvas={saveCanvas}/>
 
 
             </div>
