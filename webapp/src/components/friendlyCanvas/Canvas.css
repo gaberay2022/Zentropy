@@ -19,8 +19,10 @@
     font: inherit;
     cursor: pointer;
     outline: inherit;
-    width: 100%;
+    width: 80%;
     height: 40px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
 }
