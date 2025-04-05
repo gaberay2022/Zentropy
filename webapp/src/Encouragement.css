@@ -1,6 +1,22 @@
 .EncouragementWrapper{
     height: 100%;
     width: 30%;
-    background-color: gray;
+}
 
+.Encouragement{
+    height: 80%;
+    width: 25vw;
+    margin: auto;
+}
+
+@keyframes throw_away{
+    0% {left: 0; top: 0}
+    100% {left: 100vw; top: 100vh}
+}
+
+.RemoveEncouragement{
+    position: relative;
+
+    animation-name: throw_away;
+    animation-duration: 2s;
 }
