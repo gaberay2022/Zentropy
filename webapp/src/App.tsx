@@ -5,6 +5,7 @@ import { Home } from './components/Home';
 import { AuthPage } from './components/auth/AuthPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { FriendlyCanvas } from './components/friendlyCanvas/FriendlyCanvas'
+import {Community} from './components/Community'
 import './App.css';
 import './aws-config';
 
@@ -45,9 +46,11 @@ const AppContent = () => {
   const cloudCount = useRef(0);
   const lastCloudPosition = useRef<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const isCommunityPage = location.pathname === '/community'; // Check if the current route is /community
+
 
   const addCloud = () => {
-    if (clouds.length >= 4) return;
+    if (isCommunityPage || clouds.length >= 4) return;
 
     const cloudNumber = Math.floor(Math.random() * 6) + 1;
     const direction = Math.random() > 0.5 ? 'left' as const : 'right' as const;
@@ -92,6 +95,7 @@ const AppContent = () => {
   };
 
   useEffect(() => {
+    if (isCommunityPage) return;
     const initialClouds = [0, 1, 2, 3].map(i => 
       setTimeout(() => addCloud(), i * 2000)
     );
@@ -122,9 +126,10 @@ const AppContent = () => {
   return (
     <div className="app">
       {/* Fixed background with clouds */}
+      {!isCommunityPage && (
       <div className="background-layer">
         <div className="clouds-container">
-          {clouds.map(cloud => (
+        {clouds.map(cloud => (
             <Cloud
               key={cloud.id}
               number={cloud.number}
@@ -135,7 +140,13 @@ const AppContent = () => {
           ))}
         </div>
       </div>
+      )}
 
+      {isCommunityPage && (
+        <div className="background-layer2">
+        </div>
+      )}
+      
       {/* Content layer */}
       <div className="content-layer">
         <div className="app-container">
@@ -160,6 +171,7 @@ const AppContent = () => {
                 </ProtectedRoute>
               } 
             />
+            <Route path="/community" element={<Community />} />
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/friendly-canvas" element={<FriendlyCanvas/>} />
           </Routes>
