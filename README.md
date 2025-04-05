@@ -1,2 +1,2 @@
 # Zentropy
-A Zen Painting Hatrid Fulled Experience.
+A Zen Painting Hatred Fulled Experience.
