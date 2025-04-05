@@ -10,6 +10,9 @@ export default defineConfig({
       '@': resolve(__dirname, './src')
     }
   },
+  optimizeDeps: {
+    include: ['animejs']
+  },
   server: {
     port: 5173,
     strictPort: true

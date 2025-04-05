@@ -24,9 +24,6 @@ export const VerifyEmail = () => {
   return (
     <div className="auth-container">
       <h2>Verify Email</h2>
-      <p className="verification-info">
-        Please check your email for the verification code and enter it below.
-      </p>
       {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -53,10 +50,10 @@ export const VerifyEmail = () => {
             required
           />
         </div>
-        <button type="submit" className="waves-effect waves-light btn">Verify Email</button>
+        <button type="submit">Verify Email</button>
       </form>
-      <p style={{ textAlign: 'center', marginTop: '2rem' }}>
-        Back to <Link to="/signin" className="teal-text">Sign In</Link>
+      <p>
+        Back to <button className="sign-in-link" onClick={() => navigate('/signin')}>Sign In</button>
       </p>
     </div>
   );

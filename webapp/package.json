@@ -17,6 +17,7 @@
     "@aws-amplify/ui-react": "^6.10.0",
     "@radix-ui/colors": "^3.0.0",
     "@tanstack/react-query": "^5.71.10",
+    "@types/animejs": "^3.1.13",
     "animejs": "^4.0.0",
     "aws-amplify": "^6.14.1",
     "materialize": "^1.0.0",
@@ -27,6 +28,8 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@electron-toolkit/preload": "^3.0.0",
+    "@electron-toolkit/utils": "^3.0.0",
     "@eslint/js": "^9.21.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
@@ -34,8 +37,6 @@
     "electron": "^29.0.0",
     "electron-builder": "^24.0.0",
     "electron-vite": "^2.0.0",
-    "@electron-toolkit/preload": "^3.0.0",
-    "@electron-toolkit/utils": "^3.0.0",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",

@@ -1,0 +1,345 @@
+/* Auth Forms */
+.auth-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  pointer-events: none;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 320px;
+  padding: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+}
+
+.auth-content {
+  background: rgba(255, 245, 218, 0.95);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1001;
+  box-sizing: border-box;
+}
+
+/* Form styles */
+.auth-container h2 {
+  color: #940F12;
+  text-align: center;
+  margin: 0 0 15px 0;
+  font-family: 'Delius Unicase';
+  font-size: 22px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  color: #940F12;
+  font-family: 'Delius Unicase';
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 0 0 1px rgba(148, 15, 18, 0.1);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #940F12;
+  border-radius: 6px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  color: #940F12;
+  font-family: 'Delius Unicase';
+}
+
+.form-group input::placeholder {
+  color: rgba(148, 15, 18, 0.8);
+  font-family: 'Delius Unicase';
+  font-size: 12px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #940F12;
+}
+
+.signup-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.verification-info {
+  color: #940F12;
+  text-align: center;
+  margin: 0 0 15px 0;
+  font-family: 'Delius Unicase';
+  font-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .signup-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-content {
+    padding: 15px;
+  }
+
+  .auth-container h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+}
+
+.error-message {
+  color: #d32f2f;
+  background: rgba(211, 47, 47, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'Delius Unicase';
+  font-size: 12px;
+}
+
+/* Form button styles */
+.auth-container button[type="submit"] {
+  width: 100%;
+  margin: 15px 0 0;
+  padding: 8px;
+  font-size: 14px;
+  border: 2px solid #940F12;
+  background: linear-gradient(to bottom, #FFB347, #FF9000);
+  color: #940F12;
+  border-radius: 6px;
+  font-family: 'Delius Unicase';
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  font-weight: bold;
+}
+
+.auth-container button[type="submit"]:hover {
+  transform: translateY(-1px);
+}
+
+.auth-container button[type="submit"]:active {
+  transform: translateY(1px);
+}
+
+.auth-container p {
+  margin: 12px 0 0;
+  color: #940F12;
+  font-family: 'Delius Unicase';
+  text-align: center;
+  font-size: 12px;
+}
+
+/* Sign in/up link styles */
+.auth-container .sign-in-link {
+  background: none;
+  border: none;
+  color: #940F12;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  margin: 0;
+  display: inline;
+  width: auto;
+  box-shadow: none;
+  font-weight: normal;
+  text-shadow: none;
+  font-size: 12px;
+}
+
+.auth-container .sign-in-link:hover {
+  transform: none;
+  background: none;
+  box-shadow: none;
+}
+
+/* Rest of the styles remain unchanged */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Background layer */
+.background-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: #FFF5DA;
+}
+
+.clouds-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cloud {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.cloud img {
+  width: 200px;
+  height: auto;
+}
+
+/* Logo and Sun */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 80px;
+  position: relative;
+  z-index: 1002;
+}
+
+.logo-letter {
+  display: inline-block;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-letter img {
+  width: 80px;
+  height: 80px;
+}
+
+.sun-container {
+  position: absolute;
+  top: 3%;
+  right: 5%;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1002;
+  transform-origin: center;
+}
+
+.sun-guy {
+  width: 80px;
+  height: 80px;
+  z-index: 51;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.sun-beams-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.sun-beam {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 180px;
+  height: 12px;
+  transform-origin: left center;
+  background: linear-gradient(
+    to right,
+    rgba(255, 144, 0, 0.8),
+    rgba(255, 144, 0, 0.4) 50%,
+    rgba(255, 144, 0, 0) 100%
+  );
+  border-radius: 12px;
+  opacity: 0.8;
+}
+
+/* Buttons */
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  z-index: 100;
+}
+
+.button {
+  font-family: 'Delius Unicase';
+  background: linear-gradient(to bottom, #FFB347, #FF9000);
+  color: #940F12;
+  border: 8px solid #940F12;
+  border-radius: 15px;
+  padding: 20px 40px;
+  font-size: 24px;
+  cursor: pointer;
+  margin: 15px;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button:active, .button.clicked {
+  transform: scale(0.95) translateY(2px);
+}
+
+.button:focus, .button:focus-visible {
+  outline: none !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
