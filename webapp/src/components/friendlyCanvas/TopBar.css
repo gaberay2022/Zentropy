@@ -1,24 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Delius+Unicase:wght@400;700&family=Henny+Penny&display=swap');
-
 .TopBar2 {
-    width: 100%;
-    height: 5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  background: transparent;
+  z-index: 30;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.TopBarButton {
-    background: none;
-    border: none;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-    font-size: 40px;
-    font-family: "Delius Unicase", cursive;
-    font-weight: 700;
-    color: black;
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
+.nav-buttons {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+/* Use dashboard button styles */
+.nav-buttons .dashboard-button {
+  height: 48px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #FFB347, #FF9000);
+  border: 3px solid #940F12;
+  border-radius: 8px;
+  color: #940F12;
+  font-family: 'Delius Unicase';
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.nav-buttons .dashboard-button:hover {
+  transform: translateY(-2px);
+}
+
+.nav-buttons .dashboard-button:active {
+  transform: translateY(1px);
+}
+
+.nav-buttons .dashboard-button:focus,
+.nav-buttons .dashboard-button:focus-visible {
+  outline: none !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo and sun animations are inherited from animations.css */
