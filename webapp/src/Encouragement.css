@@ -1,22 +1,37 @@
 .EncouragementWrapper{
+    position: relative;
     height: 100%;
     width: 30%;
 }
 
 .Encouragement{
+    top: 0; /* Position Y halfway in */
+    left: 50%; /* Position X halfway in */
+    transform: translate(-50%, 0);
+    position: absolute;
     height: 80%;
     width: 25vw;
-    margin: auto;
+    object-fit: contain;
 }
 
-@keyframes throw_away{
-    0% {left: 0; top: 0}
-    100% {left: 100vw; top: 100vh}
+@keyframes remove_encouragement {
+    from { transform: translate(-50%, 0) rotate(0deg); }
+    to { transform: translate(30vw, 100vh) rotate(180deg); }
 }
+
 
 .RemoveEncouragement{
-    position: relative;
 
-    animation-name: throw_away;
+    animation-name: remove_encouragement;
+    animation-duration: 1s;
+}
+
+@keyframes insert_encouragement{
+    from {transform: translate(-50vw, -150vh) rotate(-180deg)}
+    to { transform: translate(-50%, 0) rotate(0deg); }
+}
+
+.AddEncouragement{
+    animation-name: insert_encouragement;
     animation-duration: 2s;
 }

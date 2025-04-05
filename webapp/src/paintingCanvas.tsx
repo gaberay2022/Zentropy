@@ -10,12 +10,16 @@ import stamp_cursor from "./stamp_cursor.ico"
 import eraser_cursor from "./eraser_cursor.ico"
 import paintbucket_cursor from "./paintbucket_cursor.ico"
 
+import clear_button from "/svgs/clear_button.svg"
+import save_button from "/svgs/save_button.svg"
+
 interface DrawingProps {
     width: number,
     height: number,
     penSize: number,
     strokeMode: number,
-    color: string
+    color: string,
+    clearCanvas: boolean
 }
 
 interface MousePos {
@@ -369,15 +373,19 @@ style="width: ${props.penSize}px; height: ${props.penSize}px"
 }
 
 function Canvas() {
+
     const [penSize, setPenSize] = useState(10);
     const [selectedStrokeOption, setSelectedStrokeOption] = useState(1);
     const [currColor, setCurrColor] = useState("#2596be")
     const [stampSelectorVisible, setStampSelectorVisible] = useState(false)
-
+    const [clearCanvas, setClearCanvas] = useState(false);
     function handlePenSizeChange(e: React.ChangeEvent<HTMLInputElement>) {
         setPenSize(+e.target.value);
     }
 
+    useEffect(() => {
+      setClearCanvas(false);
+    }, [clearCanvas])
     useEffect(() => {
         function handleClick(e: MouseEvent) {
             if (e.target && e.target.id.includes("stampSelector")) {
@@ -395,15 +403,22 @@ function Canvas() {
 
     return (<div className={"CanvasColumnWrapper"}>
             <div className={"TopBar"}>
-
+                <img src={clear_button} className={"TopBarButton"} style={{marginLeft: "40px", paddingLeft: 0}}
+                     onClick={() => {setClearCanvas(true)}}
+                     alt="Trash"/>
+                <img src={save_button} className={"TopBarButton"} style={{marginRight: "auto"}}
+                     alt="Save"
+                     onClick={() => {undefined}}
+                />
+                <div className={"SizeText"}>
+                    Stroke : {penSize}px
+                </div>
                 <input type={"range"} className={"Slider"} min={5} max={100}
                        onChange={(e) => {
                            handlePenSizeChange(e)
                        }} step={0.5}
                 ></input>
-                <div className={"SizeText"}>
-                    Stroke : {penSize}px
-                </div>
+
                 <input type={"color"} className={"ColorPicker"}
                        value={currColor}
                        onChange={(e) => {
@@ -505,7 +520,7 @@ function Canvas() {
                         </Button>
                     </div>
                     <Drawing width={1600} height={700} penSize={penSize} strokeMode={selectedStrokeOption}
-                             color={currColor}/>
+                             color={currColor} clearCanvas={clearCanvas}/>
 
 
                 </div>
