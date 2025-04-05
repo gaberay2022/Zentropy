@@ -394,23 +394,27 @@ function Canvas() {
 
 
     return (<div className={"CanvasColumnWrapper"}>
-                <div className={"TopBar"}>
-                    <input type={"color"} className={"ColorPicker"}
-                           value={currColor}
-                           onChange={(e) => {
-                               setCurrColor(e.target.value);
-                           }}
-                    ></input>
-                    <input type={"range"} className={"Slider"} min={1} max={50}
-                           onChange={(e) => {
-                               handlePenSizeChange(e)
-                           }} step={0.5}
-                    ></input>
+            <div className={"TopBar"}>
+
+                <input type={"range"} className={"Slider"} min={5} max={100}
+                       onChange={(e) => {
+                           handlePenSizeChange(e)
+                       }} step={0.5}
+                ></input>
+                <div className={"SizeText"}>
+                    Stroke : {penSize}px
                 </div>
-                <div className={"CanvasRowWrapper"}>
-                    <div className={"SideBar"}>
-                        <Button className={"ModeButton"}
-                                style={{backgroundColor: selectedStrokeOption == 1 ? "darkgray" : "lightgray"}}
+                <input type={"color"} className={"ColorPicker"}
+                       value={currColor}
+                       onChange={(e) => {
+                           setCurrColor(e.target.value);
+                       }}
+                ></input>
+            </div>
+            <div className={"CanvasRowWrapper"}>
+                <div className={"SideBar"}>
+                    <Button className={"ModeButton"}
+                            style={{backgroundColor: selectedStrokeOption == 1 ? "darkgray" : "lightgray"}}
                                 onClick={() => {setSelectedStrokeOption(1)}}
                         >
                             Nml
@@ -502,6 +506,7 @@ function Canvas() {
                     </div>
                     <Drawing width={1600} height={700} penSize={penSize} strokeMode={selectedStrokeOption}
                              color={currColor}/>
+
 
                 </div>
 

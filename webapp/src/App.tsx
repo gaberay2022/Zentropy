@@ -1,5 +1,8 @@
 import './App.css'
 import Canvas  from "./paintingCanvas.tsx"
+import TopBar from "./TopBar.tsx";
+import Encouragement from './Encouragement';
+
 
 function App() {
 
@@ -9,9 +12,16 @@ function App() {
         <TopBar>
 
         </TopBar>
-        <Canvas>
+        <div style={{display: "flex", flexDirection: "row", height: "calc(100% - 5rem)"}}>
+            <Canvas>
 
-        </Canvas>
+            </Canvas>
+            <Encouragement>
+
+            </Encouragement>
+        </div>
+
+
     </div>
   )
 }
