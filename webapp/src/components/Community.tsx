@@ -17,8 +17,22 @@ export const Community = () => {
   return (
     <div>
     <div className = "navigation">
-        <button>Home</button>
-        <button>Account</button>
+        <button
+            onClick={() => navigate('/dashboard')}
+            style={{
+            padding: '8px 16px',
+            background: 'linear-gradient(to bottom, #FFB347, #FF9000)',
+            border: '2px solid #940F12',
+            borderRadius: '6px',
+            color: '#940F12',
+            fontFamily: 'Delius Unicase',
+            fontSize: '14px',
+            cursor: 'pointer',
+            transition: 'transform 0.3s ease',
+            }}
+        >
+            Dashboard
+        </button>
     </div>
     <div className="community">
         <div className='container'>
