@@ -68,7 +68,7 @@ export const AuthPage = () => {
     // Show auth page after logo exit animation starts
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 400); // Reduced from 600ms to better match exit animations
+    }, 400);
 
     return () => clearTimeout(timer);
   }, []);

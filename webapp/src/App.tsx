@@ -1,13 +1,18 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
+import { Authenticator } from '@aws-amplify/ui-react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Dashboard } from './components/Dashboard';
 import { Home } from './components/Home';
 import { AuthPage } from './components/auth/AuthPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { FriendlyCanvas } from './components/friendlyCanvas/FriendlyCanvas'
-import {Community} from './components/Community'
+import { Community } from './components/Community'
 import './App.css';
 import './aws-config';
+import '@aws-amplify/ui-react/styles.css';
+
+const queryClient = new QueryClient();
 
 interface CloudState {
   id: number;
@@ -172,8 +177,15 @@ const AppContent = () => {
               } 
             />
             <Route path="/community" element={<Community />} />
+            <Route
+              path="/friendly-canvas"
+              element={
+                <ProtectedRoute>
+                  <FriendlyCanvas />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<Navigate to="/" replace />} />
-            <Route path="/friendly-canvas" element={<FriendlyCanvas/>} />
           </Routes>
         </div>
       </div>
@@ -183,9 +195,13 @@ const AppContent = () => {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Authenticator.Provider>
+        <Router>
+          <AppContent />
+        </Router>
+      </Authenticator.Provider>
+    </QueryClientProvider>
   );
 }
 
