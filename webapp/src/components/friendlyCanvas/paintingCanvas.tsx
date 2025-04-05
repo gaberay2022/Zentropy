@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import './Canvas.css';
 import { Button } from "@aws-amplify/ui-react";
 
-import FloodFill from 'q-floodfill';
 import axios from 'axios';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import ReactDOM from 'react-dom';
@@ -12,10 +11,27 @@ import spray_cursor from "./spray_cursor.ico";
 import stamp_cursor from "./stamp_cursor.ico";
 import eraser_cursor from "./eraser_cursor.ico";
 import paintbucket_cursor from "./paintbucket_cursor.ico";
+import FloodFill from 'q-floodfill'
+import {Canvg, Translate} from 'canvg'
+import CssFilterConverter from 'css-filter-converter';
 
-import clear_button from "/svgs/clear_button.svg";
-import save_button from "/svgs/save_button.svg";
 
+import Brush_Icon from "/svgs/Brush_Icon.svg"
+import Bucket_Icon from "/svgs/Bucket_Icon.svg"
+import Eraser_Icon from "/svgs/Eraser_Icon.svg"
+import Spray_Icon from "/svgs/Spray_Icon.svg"
+import Stamp_Icon from "/svgs/Stamp_Icon.svg"
+
+
+import stamp_Hexagon from "/svgs/Stamp_Hexagon.svg"
+import stamp_Rect from "/svgs/Stamp_Rectangle.svg"
+import stamp_Star from "/svgs/Stamp_Star.svg"
+import stamp_Triangle from "/svgs/Stamp_Triangle.svg"
+
+
+
+import clear_button from "/svgs/clear_button.svg"
+import save_button from "/svgs/save_button.svg"
 import { SaveDialog } from './SaveDialog';
 
 // Create axios instance with default config
@@ -53,6 +69,8 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
     const [mouseOverCanvas, setMouseOverCanvas] = useState<boolean>(false);
     const isMouseDown = useRef<boolean>(false);
     const lastPos = useRef<LastPos>({ x: null, y: null });
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
 
     const cursorStyle = useMemo(() => {
         switch (props.strokeMode) {
@@ -69,9 +87,9 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
 
     async function drawOnTap(e: React.TouchEvent<HTMLCanvasElement>) {
         const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (canvas.current) {
-            const boundingBox = canvas.current.getBoundingClientRect();
-            const ctx = canvas.current.getContext('2d');
+        if (canvasRef.current) {
+            const boundingBox = canvasRef.current.getBoundingClientRect();
+            const ctx = canvasRef.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = Math.floor(e.touches[0].clientX - boundingBox.left);
@@ -93,9 +111,9 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
 
     async function drawOnDrag(e: React.TouchEvent<HTMLCanvasElement>) {
         const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (canvas.current && isMouseDown.current) {
-            const boundingBox = canvas.current.getBoundingClientRect();
-            const ctx = canvas.current.getContext('2d');
+        if (canvasRef.current && isMouseDown.current) {
+            const boundingBox = canvasRef.current.getBoundingClientRect();
+            const ctx = canvasRef.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = e.touches[0].clientX - boundingBox.left;
@@ -145,9 +163,9 @@ const Drawing = React.forwardRef<HTMLCanvasElement, DrawingProps>((props, ref) =
 
     async function drawOnClick(e: React.MouseEvent<HTMLCanvasElement>) {
         const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (canvas.current) {
-            const boundingBox = canvas.current.getBoundingClientRect();
-            const ctx = canvas.current.getContext('2d');
+        if (canvasRef.current) {
+            const boundingBox = canvasRef.current.getBoundingClientRect();
+            const ctx = canvasRef.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = Math.floor(e.clientX - boundingBox.left);
@@ -262,10 +280,9 @@ y="${rel_Y-props.penSize/2+32}">
     }
 
     function draw(e: React.MouseEvent<HTMLCanvasElement>) {
-        const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (canvas.current && isMouseDown.current) {
-            const boundingBox = canvas.current.getBoundingClientRect();
-            const ctx = canvas.current.getContext('2d');
+        if (canvasRef.current && isMouseDown.current) {
+            const boundingBox = canvasRef.current.getBoundingClientRect();
+            const ctx = canvasRef.current.getContext('2d');
             if (!ctx) return;
 
             const rel_X = e.clientX - boundingBox.left;
@@ -337,9 +354,9 @@ y="${rel_Y-props.penSize/2+32}">
     }
 
     useEffect(() => {
-        const canvas = ref as React.RefObject<HTMLCanvasElement>;
-        if (props.clearCanvas && canvas.current) {
-            const ctx = canvas.current.getContext('2d');
+
+        if (props.clearCanvas && canvasRef.current) {
+            const ctx = canvasRef.current.getContext('2d');
             if (ctx) {
                 ctx.clearRect(0, 0, props.width, props.height);
             }
@@ -359,7 +376,7 @@ y="${rel_Y-props.penSize/2+32}">
                         cursor: cursorStyle
                     }}
                     className="drawingCanvas"
-                    ref={ref}
+                    ref={canvasRef}
                     onMouseDown={() => isMouseDown.current = true}
                     onMouseUp={endStrokeHandler}
                     onMouseMove={handleMouseMove}
@@ -493,7 +510,7 @@ function Canvas(): JSX.Element {
 
             // Convert canvas to base64 string
             const imageData = canvasRef.current.toDataURL('image/png').split(',')[1];
-            
+
             // Send to backend
             await api.post('/api/images', {
                 userId,
@@ -536,107 +553,102 @@ function Canvas(): JSX.Element {
     return (
 
         <>
-            <div className="CanvasColumnWrapper">
-                <div className="TopBar">
-                    <img
-                        src={clear_button}
-                        className="TopBarButton"
-                        style={{ marginLeft: "40px", paddingLeft: 0 }}
-                        onClick={() => setClearCanvas(true)}
-                        alt="Trash"
-                    />
-                    <img
-                        src={save_button}
-                        className="TopBarButton"
-                        style={{ marginRight: "auto" }}
-                        alt="Save"
-                        onClick={() => setShowSaveDialog(true)}
-                    />
-                    <div className="SizeText">
-                        Stroke: {penSize}px
-                    </div>
-                    <input
-                        type="range"
-                        className="Slider"
-                        min={5}
-                        max={100}
-                        value={penSize}
-                        onChange={handlePenSizeChange}
-                        step={0.5}
-                    />
-                    <input
-                        type="color"
-                        className="ColorPicker"
-                        value={currColor}
-                        onChange={(e) => setCurrColor(e.target.value)}
-                    />
-                </div>
-                <div className="CanvasRowWrapper">
-                    <div className="SideBar">
-                        <Button
-                            className="ModeButton"
-                            style={{ backgroundColor: selectedStrokeOption === 1 ? "darkgray" : "lightgray" }}
-                            onClick={() => setSelectedStrokeOption(1)}
-                        >
-                            Nml
-                        </Button>
-                        <Button
-                            className="ModeButton"
-                            style={{ backgroundColor: selectedStrokeOption === 2 ? "darkgray" : "lightgray" }}
-                            onClick={() => setSelectedStrokeOption(2)}
-                        >
-                            Spr
-                        </Button>
-                        <Button
-                            className="ModeButton"
-                            style={{ backgroundColor: selectedStrokeOption === 3 ? "darkgray" : "lightgray" }}
-                            onClick={() => setSelectedStrokeOption(3)}
-                        >
-                            Ers
-                        </Button>
-                        <Button
-                            className="ModeButton"
-                            style={{ backgroundColor: selectedStrokeOption === 4 ? "darkgray" : "lightgray" }}
-                            onClick={() => setSelectedStrokeOption(4)}
-                        >
-                            Fll
-                        </Button>
-                        <Button
-                            className="ModeButton"
-                            style={{ backgroundColor: stampSelectorVisible ? "darkgray" : "lightgray" }}
-                            onClick={() => setStampSelectorVisible(true)}
-                            id="stampSelector"
-                        >
-                            <div className={`StampSelector ${stampSelectorVisible ? 'visible' : ''}`}>
-                                {[5, 6, 7].map((mode) => (
-                                    <div
-                                        key={mode}
-                                        onMouseDown={() => setSelectedStrokeOption(mode)}
-                                        dangerouslySetInnerHTML={{ __html: getStampSVG(mode, currColor, 32, 16, 16) }}
-                                    />
-                                ))}
-                            </div>
-                            Stmp
-                        </Button>
-                    </div>
-                    <Drawing
-                        width={1600}
-                        height={700}
-                        penSize={penSize}
-                        strokeMode={selectedStrokeOption}
-                        color={currColor}
-                        clearCanvas={clearCanvas}
-                        ref={canvasRef}
-                    />
-                </div>
-            </div>
-            {showSaveDialog && (
-                <SaveDialog
-                    onSave={handleSave}
-                    onCancel={() => setShowSaveDialog(false)}
+        <div className="CanvasColumnWrapper">
+            <div className="TopBar">
+                <img
+                    src={clear_button}
+                    className="TopBarButton"
+                    style={{ marginLeft: "40px", paddingLeft: 0,  marginRight: "1rem"}}
+                    onClick={() => setClearCanvas(true)}
+                    alt="Trash"
                 />
-            )}
-        </>
+                <img
+                    src={save_button}
+                    className="TopBarButton"
+                    style={{ marginRight: "auto" }}
+                    alt="Save"
+                    onClick={() => setShowSaveDialog(true)}
+                />
+                <div className="SizeText">
+                    Stroke: {penSize}px
+                </div>
+                <input
+                    type="range"
+                    className="Slider"
+                    min={5}
+                    max={100}
+                    value={penSize}
+                    onChange={handlePenSizeChange}
+                    step={0.5}
+                />
+                <input
+                    type="color"
+                    className="ColorPicker"
+                    value={currColor}
+                    onChange={(e) => setCurrColor(e.target.value)}
+                    style={{marginLeft: "1rem"}}
+                />
+            </div>
+            <div className={"CanvasRowWrapper"}>
+                <div className={"SideBar"}>
+                    <img src={Brush_Icon} className={"ModeButton"} alt={"Brush"}
+                         onClick={() => {
+                             setSelectedStrokeOption(1)
+                         }}/>
+                    <img src={Spray_Icon} className={"ModeButton"} alt={"Brush"}
+                         onClick={() => {
+                             setSelectedStrokeOption(2)
+                         }}/>
+                    <div>
+                    <img src={Stamp_Icon} className={"ModeButton"} alt={"Brush"}
+                         onClick={() => {
+                            setStampSelectorVisible(true)
+                         }} id={"stampSelector"}/>
+                        <div style={{display: stampSelectorVisible ? "flex" : "none", color: currColor}}
+                             className={"StampSelector"}>
+                            <img style={{width: "50px", height: "50px", marginLeft: "10px", marginRight: "10px", cursor: "pointer"}}
+                                 src={stamp_Rect} alt={"stamp_Rect"} onClick={() => setSelectedStrokeOption(5)}/>
+                            <img style={{
+                                width: "50px",
+                                height: "50px",
+                                marginLeft: "10px",
+                                marginRight: "10px",
+                                cursor: "pointer"
+                            }}
+                                 src={stamp_Triangle} alt={"stamp_Rect"} onClick={() => setSelectedStrokeOption(6)}/>
+                            <img style={{width: "50px", height: "50px", marginLeft: "10px", marginRight: "10px", cursor: "pointer"}}
+                                 src={stamp_Star} alt={"stamp_Rect"} onClick={() => setSelectedStrokeOption(7)}/>
+                            <img style={{width: "50px", height: "50px", marginLeft: "10px", marginRight: "10px", cursor: "pointer"}}
+                                 src={stamp_Hexagon} alt={"stamp_Rect"} onClick={() => setSelectedStrokeOption(8)}/>
+
+                        </div>
+
+                    </div>
+                <img src={Bucket_Icon} className={"ModeButton"} alt={"Brush"}
+                     onClick={() => {
+                         setSelectedStrokeOption(4)
+                     }}/>
+                <img src={Eraser_Icon} className={"ModeButton"} alt={"Brush"}
+                     onClick={() => {
+                         setSelectedStrokeOption(3)
+                     }}/>
+
+
+                </div>
+                <Drawing width={1600} height={700} penSize={penSize} strokeMode={selectedStrokeOption}
+                         color={currColor} clearCanvas={clearCanvas}/>
+
+
+            </div>
+
+        </div>
+    {showSaveDialog && (
+        <SaveDialog
+            onSave={handleSave}
+            onCancel={() => setShowSaveDialog(false)}
+        />
+    )}
+    </>
     );
 }
 
