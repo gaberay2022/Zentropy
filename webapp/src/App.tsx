@@ -175,7 +175,7 @@ const AppContent = () => {
               } 
             />
             <Route path="/community" element={<Community />} />
-            <Route path="/comments" element = {<CommentPage />} />
+            <Route path="/comments/:id" element={<CommentPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/friendly-canvas" element={<FriendlyCanvas/>} />
           </Routes>
